@@ -3,6 +3,7 @@ import prisma from '../config/database';
 import { AuthRequest } from '../types';
 import { hasTimeCollision, calculateEndTime } from '../utils/schedule.utils';
 import { withDbRetry } from '../utils/helpers';
+import { formatDate, formatTime, formatDateTime } from '../utils/date.utils';
 
 export const createBooking = async (req: AuthRequest, res: Response) => {
   try {
@@ -411,29 +412,10 @@ export const getUserBookings = async (req: AuthRequest, res: Response) => {
       // Use stored endTime or null (can't calculate without plan info)
       const endTime = booking.schedule.endTime ? new Date(booking.schedule.endTime) : null;
 
-      // Format date and time for display
-      const formattedDate = eventDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long',
-      });
-
-      const formattedStartTime = startTime
-        ? startTime.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-          })
-        : null;
-
-      const formattedEndTime = endTime
-        ? endTime.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-          })
-        : null;
+      // Format date and time for display using UTC-aware formatting
+      const formattedDate = formatDate(eventDate);
+      const formattedStartTime = formatTime(startTime);
+      const formattedEndTime = formatTime(endTime);
 
       // Only show start time (no end time range)
       const timeSlot = formattedStartTime || 'Time not specified';
@@ -457,9 +439,7 @@ export const getUserBookings = async (req: AuthRequest, res: Response) => {
         eventStartTimeFormatted: formattedStartTime,
         eventEndTimeFormatted: formattedEndTime,
         eventTimeSlot: timeSlot,
-        eventDateTime: startTime && endTime
-          ? `${formattedDate} at ${timeSlot}`
-          : formattedDate,
+        eventDateTime: formatDateTime(eventDate, startTime),
         // Media information (primary media for this booking)
         mediaId: booking.media.id,
         mediaFilename: booking.media.filename,

@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import prisma from '../config/database';
 import { AuthRequest } from '../types';
+import { formatDate, formatTime, formatDateTime } from '../utils/date.utils';
 // Removed calculateEndTime import - can't calculate without plan info
 
 // Get all bookings for admin view (master table)
@@ -114,29 +115,10 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
         ? new Date(booking.schedule.endTime) 
         : null;
 
-      // Format date and time for display
-      const formattedDate = eventDate.toLocaleDateString('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-        weekday: 'long',
-      });
-
-      const formattedStartTime = startTime
-        ? startTime.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-          })
-        : null;
-
-      const formattedEndTime = endTime
-        ? endTime.toLocaleTimeString('en-US', {
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-          })
-        : null;
+      // Format date and time for display using UTC-aware formatting
+      const formattedDate = formatDate(eventDate);
+      const formattedStartTime = formatTime(startTime);
+      const formattedEndTime = formatTime(endTime);
 
       // Only show start time (no end time range)
       const timeSlot = formattedStartTime || 'Time not specified';
@@ -159,9 +141,7 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
         eventEndTimeFormatted: formattedEndTime,
         eventTimeSlot: timeSlot,
         // Combined date and time for easy viewing
-        eventDateTime: startTime
-          ? `${formattedDate} at ${timeSlot}`
-          : formattedDate,
+        eventDateTime: formatDateTime(eventDate, startTime),
         mediaFilename: booking.media.filename,
         mediaType: booking.media.type,
         mediaFeatureType: booking.media.featureType,
@@ -394,28 +374,10 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
           ? new Date(booking.schedule.endTime) 
           : null;
 
-        const formattedDate = eventDate.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          weekday: 'long',
-        });
-
-        const formattedStartTime = startTime
-          ? startTime.toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-            })
-          : null;
-
-        const formattedEndTime = endTime
-          ? endTime.toLocaleTimeString('en-US', {
-              hour: '2-digit',
-              minute: '2-digit',
-              hour12: true,
-            })
-          : null;
+        // Format date and time for display using UTC-aware formatting
+        const formattedDate = formatDate(eventDate);
+        const formattedStartTime = formatTime(startTime);
+        const formattedEndTime = formatTime(endTime);
 
         // Only show start time (no end time range)
         const timeSlot = formattedStartTime || 'Time not specified';
@@ -576,9 +538,7 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
             startTimeFormatted: formattedStartTime,
             endTimeFormatted: formattedEndTime,
             timeSlot: timeSlot,
-            eventDateTime: startTime
-              ? `${formattedDate} at ${timeSlot}`
-              : formattedDate,
+            eventDateTime: formatDateTime(eventDate, startTime),
           },
           // Media information - ALWAYS an array of all related media
           // Ensure it's always an array, never a single object
