@@ -23,9 +23,9 @@ echo "✅ In correct directory: $(pwd)"
 echo "✅ Found package.json and prisma directory"
 
 # Install dependencies (including devDependencies needed for TypeScript build)
-# Unset NODE_ENV during install to ensure devDependencies are installed
+# Ensure devDependencies are installed even if NODE_ENV=production
 echo "📦 Installing dependencies..."
-NODE_ENV= npm install
+npm install --production=false || npm install
 
 # Generate Prisma client - Prisma will auto-detect schema.prisma
 echo "🔧 Generating Prisma client..."
