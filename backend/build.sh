@@ -5,35 +5,31 @@ set -e
 
 echo "🔨 Starting build process..."
 echo "Current directory: $(pwd)"
-echo "Listing files:"
-ls -la
 
-# Ensure we're in the right directory
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-cd "$SCRIPT_DIR"
+# If Root Directory is set to 'backend', we're already there
+# If not, we need to cd into backend
+if [ -d "backend" ] && [ -f "backend/package.json" ]; then
+    echo "📁 Found backend directory, changing into it..."
+    cd backend
+    echo "Now in: $(pwd)"
+elif [ ! -f "package.json" ]; then
+    echo "❌ package.json not found in current directory!"
+    echo "Contents:"
+    ls -la
+    exit 1
+fi
 
-echo "Changed to: $(pwd)"
-echo "Checking for prisma folder:"
-ls -la prisma/ 2>&1 || echo "Prisma folder not found in current directory"
+echo "✅ In correct directory: $(pwd)"
+echo "Checking for prisma:"
+ls -la prisma/ 2>&1 || (echo "❌ Prisma folder not found!" && exit 1)
 
 # Install dependencies
 echo "📦 Installing dependencies..."
 npm install
 
-# Generate Prisma client - try multiple paths
+# Generate Prisma client - Prisma will auto-detect schema.prisma
 echo "🔧 Generating Prisma client..."
-if [ -f "prisma/schema.prisma" ]; then
-    echo "Found schema at prisma/schema.prisma"
-    npx prisma generate --schema=prisma/schema.prisma
-elif [ -f "./prisma/schema.prisma" ]; then
-    echo "Found schema at ./prisma/schema.prisma"
-    npx prisma generate --schema=./prisma/schema.prisma
-else
-    echo "ERROR: schema.prisma not found!"
-    echo "Searching for schema..."
-    find . -name "schema.prisma" -type f
-    exit 1
-fi
+npx prisma generate
 
 # Build TypeScript
 echo "🏗️  Building TypeScript..."
