@@ -64,3 +64,4 @@ echo "5. Set environment variables in Render dashboard"
 echo "6. Deploy!"
 echo ""
 echo "See backend/RENDER_DEPLOYMENT.md for detailed instructions"
+

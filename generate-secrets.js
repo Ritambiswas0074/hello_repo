@@ -17,3 +17,4 @@ console.log('\nJWT_REFRESH_SECRET:');
 console.log(jwtRefreshSecret);
 console.log('\n✅ Secrets generated!');
 console.log('\n⚠️  Keep these secrets secure and never commit them to git!');
+
