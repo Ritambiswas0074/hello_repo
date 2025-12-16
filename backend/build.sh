@@ -22,9 +22,9 @@ fi
 echo "✅ In correct directory: $(pwd)"
 echo "✅ Found package.json and prisma directory"
 
-# Install dependencies
+# Install dependencies (including devDependencies needed for TypeScript build)
 echo "📦 Installing dependencies..."
-npm install
+npm install --include=dev
 
 # Generate Prisma client - Prisma will auto-detect schema.prisma
 echo "🔧 Generating Prisma client..."
