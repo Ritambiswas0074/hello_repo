@@ -367,13 +367,17 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
     const formattedUsers = users.map((user) => {
       // Format bookings
       const formattedBookings = user.bookings.map((booking) => {
-        const eventDate = new Date(booking.schedule.date);
+        // IMPORTANT: Use startTime's date for display, not the date field
+        // This ensures the displayed date matches what the user selected
         const startTime = booking.schedule.startTime ? new Date(booking.schedule.startTime) : null;
         // Use stored endTime or null (can't calculate without plan info)
         const endTime = booking.schedule.endTime 
           ? new Date(booking.schedule.endTime) 
           : null;
 
+        // If we have startTime, use its date portion; otherwise use the date field
+        const eventDate = startTime || new Date(booking.schedule.date);
+        
         // Format date and time for display using UTC-aware formatting
         const formattedDate = formatDate(eventDate);
         const formattedStartTime = formatTime(startTime);

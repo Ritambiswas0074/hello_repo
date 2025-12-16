@@ -174,13 +174,24 @@ export const createSchedule = async (req: AuthRequest, res: Response) => {
     const newStartTime = new Date(startTime);
     const newEndTime = plan ? calculateEndTime(newStartTime, plan.displayDurationSeconds) : null;
 
+    // IMPORTANT: Set the date field to match the date portion of startTime in UTC
+    // This ensures the date field matches what the user sees when startTime is displayed
+    // Extract the date portion from startTime (midnight UTC of that date)
+    const normalizedDate = new Date(newStartTime);
+    normalizedDate.setUTCHours(0, 0, 0, 0);
+    
+    // Use the normalized date for availability checks
+    const normalizedStartOfDay = new Date(normalizedDate);
+    const normalizedEndOfDay = new Date(normalizedDate);
+    normalizedEndOfDay.setUTCHours(23, 59, 59, 999);
+
     // Get all existing schedules for this location and date (including those with times)
     const existingSchedules = await prisma.schedule.findMany({
       where: {
         locationId,
         date: {
-          gte: startOfDay,
-          lte: endOfDay,
+          gte: normalizedStartOfDay,
+          lte: normalizedEndOfDay,
         },
         isAvailable: false,
         startTime: { not: null },
@@ -243,7 +254,9 @@ export const createSchedule = async (req: AuthRequest, res: Response) => {
     const schedule = await prisma.schedule.create({
       data: {
         locationId,
-        date: scheduleDate,
+        // Use normalized date (midnight UTC of the date that startTime represents)
+        // This ensures date matches the calendar date when startTime is displayed
+        date: normalizedDate,
         startTime: newStartTime,
         endTime: newEndTime, // Store calculated end time (or null for custom plan)
         userId: req.user.userId,
