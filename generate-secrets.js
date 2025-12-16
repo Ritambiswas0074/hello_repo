@@ -2,7 +2,7 @@
 
 // Script to generate secure JWT secrets for deployment
 
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 console.log('🔐 Generating JWT Secrets for Render Deployment');
 console.log('================================================\n');
