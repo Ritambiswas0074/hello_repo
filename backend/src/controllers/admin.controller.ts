@@ -115,8 +115,8 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
         ? new Date(booking.schedule.endTime) 
         : null;
 
-      // Format date and time for display using UTC-aware formatting
-      const formattedDate = formatDate(eventDate);
+      // Format date and time for display using local timezone to preserve user's selection
+      const formattedDate = formatDate(eventDate, startTime);
       const formattedStartTime = formatTime(startTime);
       const formattedEndTime = formatTime(endTime);
 
@@ -378,8 +378,8 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         // If we have startTime, use its date portion; otherwise use the date field
         const eventDate = startTime || new Date(booking.schedule.date);
         
-        // Format date and time for display using UTC-aware formatting
-        const formattedDate = formatDate(eventDate);
+        // Format date and time for display using local timezone to preserve user's selection
+        const formattedDate = formatDate(eventDate, startTime);
         const formattedStartTime = formatTime(startTime);
         const formattedEndTime = formatTime(endTime);
 

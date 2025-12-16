@@ -412,8 +412,8 @@ export const getUserBookings = async (req: AuthRequest, res: Response) => {
       // Use stored endTime or null (can't calculate without plan info)
       const endTime = booking.schedule.endTime ? new Date(booking.schedule.endTime) : null;
 
-      // Format date and time for display using UTC-aware formatting
-      const formattedDate = formatDate(eventDate);
+      // Format date and time for display using local timezone to preserve user's selection
+      const formattedDate = formatDate(eventDate, startTime);
       const formattedStartTime = formatTime(startTime);
       const formattedEndTime = formatTime(endTime);
 
