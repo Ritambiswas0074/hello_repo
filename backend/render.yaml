@@ -37,3 +37,4 @@ services:
         value: 9477493296
       - key: FRONTEND_URL
         sync: false
+
