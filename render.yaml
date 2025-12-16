@@ -5,7 +5,7 @@ services:
     region: oregon
     plan: starter
     rootDir: backend
-    buildCommand: npm install && npx prisma generate --schema=./prisma/schema.prisma && npm run build
+    buildCommand: bash build.sh
     startCommand: npm start
     healthCheckPath: /health
     envVars:
