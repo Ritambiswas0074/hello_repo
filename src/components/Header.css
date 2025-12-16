@@ -1,0 +1,1178 @@
+.header {
+  padding: clamp(0.4rem, 1vw, 0.6rem) clamp(0.75rem, 3vw, 4rem);
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  z-index: 1000 !important;
+  background-color: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: none;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  transform: translateZ(0) !important;
+  -webkit-transform: translateZ(0) !important;
+  will-change: transform !important;
+}
+
+.header-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: clamp(0.5rem, 2vw, 2rem);
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+  overflow: visible;
+}
+
+.brand {
+  margin-right: auto;
+}
+
+.header-right {
+  margin-left: auto;
+}
+
+/* Prevent overflow on medium and smaller screens */
+@media (max-width: 900px) {
+  .header-content {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    overflow: visible;
+  }
+}
+
+/* Intermediate breakpoint for squeezed screens */
+@media (max-width: 1100px) and (min-width: 901px) {
+  .header-content {
+    gap: clamp(0.3rem, 1.5vw, 1.5rem);
+  }
+
+  .brand {
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 140px;
+  }
+
+  .brand-logo {
+    min-width: 120px;
+    max-width: 140px;
+  }
+
+  .gooey-nav-container {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 350px);
+    overflow: visible;
+  }
+
+  .header-right {
+    flex-shrink: 0;
+    min-width: fit-content;
+    max-width: 200px;
+  }
+}
+
+.brand {
+  text-decoration: none;
+  transition: all 0.3s;
+  white-space: nowrap;
+  flex-shrink: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: visible;
+  opacity: 1;
+  min-width: 0;
+  max-width: 180px;
+  height: 50px;
+  padding: 0;
+}
+
+.brand-logo {
+  width: auto;
+  height: 100%;
+  max-height: 50px;
+  min-width: 120px;
+  max-width: 180px;
+  transition: all 0.3s ease;
+  filter: drop-shadow(0 0 10px rgba(132, 0, 255, 0.6));
+}
+
+.brand:hover .brand-logo {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 20px rgba(132, 0, 255, 0.9)) brightness(1.25);
+}
+
+.brand-logo text {
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+}
+
+/* ======== MOBILE & TABLET FIXES ======== */
+
+/* Medium screens - prevent overlapping */
+@media (max-width: 1024px) and (min-width: 901px) {
+  .header {
+    padding: clamp(0.35rem, 1vw, 0.5rem) clamp(0.5rem, 2vw, 2rem);
+  }
+
+  .header-content {
+    gap: clamp(0.25rem, 1vw, 0.8rem);
+    flex-wrap: nowrap;
+  }
+
+  .brand {
+    height: 45px;
+    flex-shrink: 1;
+    min-width: 0;
+    max-width: 140px;
+  }
+
+  .brand-logo {
+    max-height: 45px;
+    min-width: 100px;
+    width: auto;
+    max-width: 140px;
+  }
+
+  .gooey-nav-container {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: calc(100% - 320px);
+    overflow: visible;
+  }
+
+  .gooey-nav-container nav {
+    width: 100%;
+    overflow: visible;
+  }
+
+  .gooey-nav-container nav ul {
+    gap: clamp(0.15em, 0.8vw, 0.5em);
+    flex-wrap: nowrap;
+    overflow: visible;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.3em, 0.8vw, 0.4em) clamp(0.4em, 1vw, 0.65em);
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+  }
+
+  .header-right {
+    gap: clamp(0.2rem, 0.8vw, 0.6rem);
+    flex-shrink: 0;
+    min-width: fit-content;
+    max-width: 200px;
+  }
+
+  .auth-buttons {
+    gap: clamp(0.8rem, 1.5vw, 1.2rem);
+  }
+
+  .btn-auth {
+    padding: clamp(0.35rem, 1vw, 0.45rem) clamp(0.6rem, 1.4vw, 0.85rem);
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  }
+
+  .user-name {
+    max-width: 90px;
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+  }
+
+  .btn-signout {
+    padding: 0;
+    font-size: clamp(0.7rem, 1.5vw, 0.8rem);
+    background: transparent;
+    border: none;
+  }
+
+  .btn-signout-icon {
+    width: clamp(32px, 3.5vw, 40px) !important;
+    height: clamp(32px, 3.5vw, 40px) !important;
+    min-width: clamp(32px, 3.5vw, 40px) !important;
+    min-height: clamp(32px, 3.5vw, 40px) !important;
+  }
+
+  .btn-signout-icon svg {
+    width: clamp(16px, 2vw, 20px) !important;
+    height: clamp(16px, 2vw, 20px) !important;
+  }
+
+  .social-icons {
+    display: none;
+  }
+}
+
+/* Tablets and smaller laptops */
+@media (max-width: 900px) {
+  .header {
+    padding: clamp(0.5rem, 1.2vw, 0.75rem) clamp(0.75rem, 2.5vw, 1.5rem);
+    background-color: rgba(10, 10, 10, 0.95);
+  }
+
+  .header-content {
+    gap: 0.5rem;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .brand {
+    height: 42px;
+    order: 1;
+    flex-shrink: 0;
+  }
+  
+  .brand-logo {
+    max-height: 42px;
+    min-width: 110px;
+    max-width: 140px;
+    width: auto;
+  }
+
+  .gooey-nav-container {
+    order: 2;
+    flex: 0 0 auto;
+    width: auto;
+    margin: 0;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .gooey-nav-container nav {
+    width: auto;
+    overflow: visible;
+  }
+
+  .gooey-nav-container nav ul {
+    gap: clamp(0.25em, 1.2vw, 0.6em);
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    width: auto;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 0;
+    min-width: fit-content;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.4em, 1.2vw, 0.5em) clamp(0.6em, 2vw, 1em);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+  }
+
+  .header-right {
+    order: 3;
+    gap: clamp(0.3rem, 1.2vw, 0.8rem);
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+
+  .social-icons {
+    display: none;
+  }
+}
+
+/* Phones & small tablets */
+@media (max-width: 768px) {
+  .header {
+    padding: clamp(0.5rem, 1.2vw, 0.75rem) clamp(0.75rem, 2.5vw, 1.5rem);
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    background-color: rgba(10, 10, 10, 0.95) !important;
+    backdrop-filter: blur(20px);
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    will-change: transform !important;
+  }
+
+  .header-content {
+    gap: clamp(0.25rem, 0.8vw, 0.4rem) !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+  }
+
+  .brand {
+    height: 40px;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    order: 1;
+    margin: 0;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start;
+  }
+  
+  .brand-logo {
+    max-height: 40px;
+    min-width: 90px;
+    max-width: 110px;
+    width: auto;
+    flex-shrink: 0;
+  }
+
+  .gooey-nav-container {
+    order: 2;
+    flex: 1 1 auto !important;
+    flex-shrink: 1 !important;
+    flex-grow: 1 !important;
+    width: auto;
+    margin: 0 !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 260px) !important;
+    overflow: visible !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .gooey-nav-container nav {
+    width: 100%;
+    overflow: visible;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gooey-nav-container nav ul {
+    gap: clamp(0.4em, 1.5vw, 0.8em) !important;
+    justify-content: center !important;
+    flex-wrap: nowrap !important;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex !important;
+    align-items: center;
+    list-style: none;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    min-width: fit-content !important;
+    max-width: none !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.5em, 1.5vw, 0.7em) clamp(0.8em, 2vw, 1.2em) !important;
+    font-size: clamp(0.65rem, 1.6vw, 0.75rem) !important;
+    min-height: 32px !important;
+    white-space: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    overflow: visible !important;
+    text-overflow: clip !important;
+    min-width: fit-content !important;
+    margin: 0 !important;
+    border-radius: 8px;
+    background: transparent;
+  }
+
+  .gooey-nav-container nav ul li.active a {
+    background: transparent;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+  }
+
+  .header-right {
+    order: 3;
+    gap: clamp(0.25rem, 0.8vw, 0.4rem) !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    max-width: none !important;
+    overflow: visible !important;
+    margin-left: auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    min-width: fit-content !important;
+  }
+
+  .auth-buttons {
+    gap: clamp(0.6rem, 1.2vw, 1rem) !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    min-width: fit-content !important;
+  }
+
+  .btn-auth {
+    padding: clamp(0.3rem, 0.9vw, 0.4rem) clamp(0.5rem, 1.4vw, 0.7rem) !important;
+    font-size: clamp(0.65rem, 1.6vw, 0.75rem) !important;
+    min-height: 32px !important;
+    white-space: nowrap !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    box-sizing: border-box !important;
+    min-width: fit-content !important;
+    overflow: visible !important;
+  }
+
+  .btn-auth-icon {
+    width: auto !important;
+    height: auto !important;
+    min-width: auto !important;
+    min-height: auto !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .btn-auth-icon svg {
+    width: clamp(16px, 2vw, 20px) !important;
+    height: clamp(16px, 2vw, 20px) !important;
+  }
+
+  .user-menu {
+    gap: clamp(0.25rem, 0.8vw, 0.4rem) !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .user-name {
+    font-size: clamp(0.65rem, 1.6vw, 0.75rem) !important;
+    max-width: 70px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .btn-signout {
+    padding: 0 !important;
+    font-size: clamp(0.65rem, 1.6vw, 0.75rem) !important;
+    min-height: auto;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .btn-signout-icon {
+    width: clamp(30px, 3.2vw, 38px) !important;
+    height: clamp(30px, 3.2vw, 38px) !important;
+    min-width: clamp(30px, 3.2vw, 38px) !important;
+    min-height: clamp(30px, 3.2vw, 38px) !important;
+  }
+
+  .btn-signout-icon svg {
+    width: clamp(15px, 1.8vw, 18px) !important;
+    height: clamp(15px, 1.8vw, 18px) !important;
+  }
+
+  .social-icons {
+    display: none;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 640px) {
+  .header {
+    padding: clamp(0.4rem, 1vw, 0.6rem) clamp(0.5rem, 2vw, 1rem);
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    will-change: transform !important;
+  }
+
+  .header-content {
+    gap: clamp(0.25rem, 0.7vw, 0.4rem) !important;
+    flex-wrap: nowrap !important;
+    display: flex !important;
+  }
+
+  .brand {
+    height: 36px;
+    max-width: 90px;
+    flex-shrink: 0 !important;
+  }
+  
+  .brand-logo {
+    max-height: 36px;
+    min-width: 80px;
+    max-width: 90px;
+  }
+
+  .gooey-nav-container {
+    margin: 0 !important;
+    flex: 1 1 auto !important;
+    flex-shrink: 1 !important;
+    flex-grow: 1 !important;
+    max-width: calc(100% - 230px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .gooey-nav-container nav ul {
+    gap: clamp(0.3em, 1.2vw, 0.6em) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    min-width: fit-content !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.25em, 0.8vw, 0.3em) clamp(0.45em, 1.3vw, 0.65em) !important;
+    font-size: clamp(0.6rem, 1.4vw, 0.7rem) !important;
+    min-height: 30px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    min-width: fit-content !important;
+    margin: 0 !important;
+  }
+
+  .header-right {
+    gap: clamp(0.2rem, 0.7vw, 0.35rem) !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+  }
+
+  .auth-buttons {
+    gap: clamp(0.5rem, 1vw, 0.8rem) !important;
+    display: flex !important;
+  }
+
+  .btn-auth {
+    padding: clamp(0.25rem, 0.8vw, 0.35rem) clamp(0.45rem, 1.3vw, 0.65rem) !important;
+    font-size: clamp(0.6rem, 1.4vw, 0.7rem) !important;
+    min-height: 30px;
+    display: inline-flex !important;
+  }
+
+  .btn-auth-icon {
+    width: auto !important;
+    height: auto !important;
+    min-width: auto !important;
+    min-height: auto !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .btn-auth-icon svg {
+    width: clamp(15px, 1.8vw, 18px) !important;
+    height: clamp(15px, 1.8vw, 18px) !important;
+  }
+
+  .user-name {
+    font-size: clamp(0.6rem, 1.4vw, 0.7rem) !important;
+    max-width: 60px;
+  }
+
+  .btn-signout {
+    padding: 0 !important;
+    font-size: clamp(0.6rem, 1.4vw, 0.7rem) !important;
+    min-height: auto;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .btn-signout-icon {
+    width: clamp(28px, 3vw, 36px) !important;
+    height: clamp(28px, 3vw, 36px) !important;
+    min-width: clamp(28px, 3vw, 36px) !important;
+    min-height: clamp(28px, 3vw, 36px) !important;
+  }
+
+  .btn-signout-icon svg {
+    width: clamp(14px, 1.6vw, 17px) !important;
+    height: clamp(14px, 1.6vw, 17px) !important;
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .header {
+    padding: clamp(0.4rem, 1vw, 0.6rem) clamp(0.5rem, 1.5vw, 1rem);
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 1000 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    transform: translateZ(0) !important;
+    -webkit-transform: translateZ(0) !important;
+    will-change: transform !important;
+  }
+
+  .header-content {
+    gap: clamp(0.2rem, 0.6vw, 0.3rem) !important;
+    flex-wrap: nowrap !important;
+    display: flex !important;
+    justify-content: space-between !important;
+  }
+
+  .brand {
+    margin-right: auto !important;
+  }
+
+  .header-right {
+    margin-left: auto !important;
+  }
+
+  .brand {
+    height: 34px;
+    max-width: 85px;
+    flex-shrink: 0 !important;
+  }
+
+  .brand-logo {
+    max-height: 34px;
+    min-width: 75px;
+    max-width: 85px;
+  }
+
+  .gooey-nav-container {
+    flex: 1 1 auto !important;
+    flex-shrink: 1 !important;
+    flex-grow: 1 !important;
+    max-width: calc(100% - 200px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+
+  .gooey-nav-container nav ul {
+    gap: clamp(0.25em, 1vw, 0.5em) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 0 !important;
+    flex-grow: 0 !important;
+    min-width: fit-content !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.2em, 0.6vw, 0.25em) clamp(0.4em, 1.1vw, 0.6em) !important;
+    font-size: clamp(0.55rem, 1.2vw, 0.65rem) !important;
+    min-height: 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    white-space: nowrap !important;
+    box-sizing: border-box !important;
+    min-width: fit-content !important;
+    margin: 0 !important;
+  }
+
+  .header-right {
+    gap: clamp(0.15rem, 0.6vw, 0.3rem) !important;
+    flex-shrink: 0 !important;
+    display: flex !important;
+  }
+
+  .auth-buttons {
+    flex-direction: row !important;
+    gap: clamp(0.4rem, 0.9vw, 0.7rem) !important;
+    display: flex !important;
+  }
+
+  .btn-auth {
+    padding: clamp(0.25rem, 0.7vw, 0.35rem) clamp(0.4rem, 1.2vw, 0.6rem) !important;
+    font-size: clamp(0.55rem, 1.2vw, 0.65rem) !important;
+    min-height: 28px;
+    min-width: fit-content;
+    display: inline-flex !important;
+  }
+
+  .btn-auth-icon {
+    width: auto !important;
+    height: auto !important;
+    min-width: auto !important;
+    min-height: auto !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .btn-auth-icon svg {
+    width: clamp(14px, 1.6vw, 17px) !important;
+    height: clamp(14px, 1.6vw, 17px) !important;
+  }
+
+  .user-menu {
+    flex-direction: row !important;
+    gap: clamp(0.15rem, 0.6vw, 0.3rem) !important;
+    align-items: center;
+    display: flex !important;
+  }
+
+  .user-name {
+    font-size: clamp(0.55rem, 1.2vw, 0.65rem) !important;
+    max-width: 55px;
+  }
+
+  .btn-signout {
+    padding: 0 !important;
+    font-size: clamp(0.55rem, 1.2vw, 0.65rem) !important;
+    min-height: auto;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .btn-signout-icon {
+    width: clamp(26px, 2.8vw, 34px) !important;
+    height: clamp(26px, 2.8vw, 34px) !important;
+    min-width: clamp(26px, 2.8vw, 34px) !important;
+    min-height: clamp(26px, 2.8vw, 34px) !important;
+  }
+
+  .btn-signout-icon svg {
+    width: clamp(13px, 1.5vw, 16px) !important;
+    height: clamp(13px, 1.5vw, 16px) !important;
+  }
+}
+
+.gooey-nav-container {
+  flex: 1 1 auto;
+  display: flex;
+  justify-content: center;
+  min-width: 0;
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* Prevent squeezing on intermediate screen sizes */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .header-content {
+    gap: clamp(0.4rem, 1.8vw, 1.5rem);
+  }
+
+  .brand {
+    max-width: 160px;
+  }
+
+  .brand-logo {
+    min-width: 130px;
+    max-width: 160px;
+  }
+
+  .gooey-nav-container {
+    max-width: calc(100% - 380px);
+    overflow: visible;
+  }
+
+  .header-right {
+    max-width: 240px;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.4rem, 1.5vw, 1.5rem);
+  flex-shrink: 0;
+  min-width: fit-content;
+  max-width: 100%;
+  overflow: visible;
+}
+
+.auth-buttons {
+  display: flex !important;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  flex-shrink: 0;
+  flex-grow: 0;
+  min-width: fit-content;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+.btn-auth {
+  padding: clamp(0.4rem, 1.2vw, 0.5rem) clamp(0.85rem, 2.5vw, 1.1rem);
+  font-size: clamp(0.8rem, 2vw, 0.85rem);
+  font-weight: 500;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: all 0.3s;
+  color: #ffffff;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  white-space: nowrap !important;
+  visibility: visible;
+  opacity: 1;
+  min-height: 36px;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0;
+  flex-grow: 0;
+  box-sizing: border-box;
+}
+
+.btn-auth:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-auth-primary {
+  background: linear-gradient(135deg, #0066ff, #00bfff);
+  border: none;
+}
+
+.btn-auth-primary:hover {
+  background: linear-gradient(135deg, #0052cc, #0099cc);
+  transform: translateY(-1px);
+}
+
+/* Icon Button Styles */
+.btn-auth-icon {
+  width: auto;
+  height: auto;
+  min-width: auto;
+  min-height: auto;
+  padding: 0;
+  border-radius: 0;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  box-sizing: border-box;
+  position: relative;
+  overflow: visible;
+}
+
+.btn-auth-icon::before {
+  display: none;
+}
+
+.btn-auth-icon:hover {
+  background: transparent;
+  border: none;
+  transform: translateY(-2px);
+}
+
+.btn-auth-icon:hover svg {
+  opacity: 0.8;
+}
+
+.btn-auth-icon svg {
+  width: clamp(18px, 2.2vw, 22px);
+  height: clamp(18px, 2.2vw, 22px);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.btn-auth-icon:hover svg {
+  transform: scale(1.1);
+}
+
+.btn-auth-icon-primary {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.btn-auth-icon-primary::before {
+  display: none;
+}
+
+.btn-auth-icon-primary:hover {
+  background: transparent;
+  box-shadow: none;
+  transform: translateY(-2px);
+}
+
+.btn-auth-icon-primary:hover svg {
+  opacity: 0.8;
+}
+
+.user-menu {
+  display: flex !important;
+  align-items: center !important;
+  gap: clamp(0.5rem, 1.5vw, 1rem);
+  flex-wrap: nowrap !important;
+  min-width: 0;
+  max-width: 100%;
+  justify-content: flex-end;
+  box-sizing: border-box;
+}
+
+.user-name {
+  color: #ffffff;
+  font-size: clamp(0.875rem, 2.5vw, 0.9rem);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s;
+  cursor: pointer;
+  white-space: nowrap !important;
+  display: flex !important;
+  align-items: center !important;
+  visibility: visible;
+  opacity: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 150px;
+  flex-shrink: 1;
+  box-sizing: border-box;
+}
+
+.user-name:hover {
+  color: rgba(132, 0, 255, 1);
+  text-shadow: 0 0 10px rgba(132, 0, 255, 0.5);
+}
+
+.btn-signout {
+  padding: 0;
+  font-size: clamp(0.8rem, 2vw, 0.85rem);
+  font-weight: 500;
+  border-radius: 0;
+  background: transparent;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  visibility: visible;
+  opacity: 1;
+  min-height: auto;
+  flex-shrink: 0;
+  flex-grow: 0;
+  box-sizing: border-box;
+}
+
+.btn-signout:hover {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn-signout-icon {
+  width: clamp(36px, 4vw, 44px);
+  height: clamp(36px, 4vw, 44px);
+  min-width: clamp(36px, 4vw, 44px);
+  min-height: clamp(36px, 4vw, 44px);
+  padding: 0;
+  border-radius: 50%;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.btn-signout-icon::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease;
+}
+
+.btn-signout-icon:hover::before {
+  width: 100%;
+  height: 100%;
+}
+
+.btn-signout-icon:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(132, 0, 255, 0.3);
+}
+
+.btn-signout-icon svg {
+  width: clamp(18px, 2.2vw, 22px);
+  height: clamp(18px, 2.2vw, 22px);
+  position: relative;
+  z-index: 1;
+  transition: transform 0.3s ease;
+}
+
+.btn-signout-icon:hover svg {
+  transform: scale(1.1);
+}
+
+.social-icons {
+  display: flex;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  align-items: center;
+}
+
+.social-icons {
+  position: relative;
+  display: flex;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  align-items: center;
+}
+
+.social-icons a {
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.social-icons a svg {
+  fill: currentColor;
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: transparent;
+  transform: translateY(-2px);
+}
+
+/* Instagram - gradient theme colors (first link after hidden SVG) */
+.social-icons a[aria-label="Instagram"]:hover svg {
+  fill: url(#instagramGradient);
+  filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.6));
+}
+
+/* LinkedIn - blue theme color */
+.social-icons a[aria-label="LinkedIn"]:hover svg {
+  fill: url(#linkedinGradient);
+  filter: drop-shadow(0 0 8px rgba(0, 191, 255, 0.6));
+}
+
+/* Facebook - purple theme color */
+.social-icons a[aria-label="Facebook"]:hover svg {
+  fill: url(#facebookGradient);
+  filter: drop-shadow(0 0 8px rgba(184, 77, 255, 0.6));
+}
+
+/* Fallback colors if gradients don't work */
+@supports not (fill: url(#instagramGradient)) {
+  .social-icons a[aria-label="Instagram"]:hover svg {
+    fill: #ff00ff;
+    filter: drop-shadow(0 0 8px rgba(255, 0, 255, 0.6));
+  }
+  .social-icons a[aria-label="LinkedIn"]:hover svg {
+    fill: #00bfff;
+    filter: drop-shadow(0 0 8px rgba(0, 191, 255, 0.6));
+  }
+  .social-icons a[aria-label="Facebook"]:hover svg {
+    fill: #b84dff;
+    filter: drop-shadow(0 0 8px rgba(184, 77, 255, 0.6));
+  }
+}
+
+/* Hide social icons on small screens to save space */
+@media (max-width: 768px) {
+  .social-icons {
+    display: none;
+  }
+}
+
+/* Ensure header doesn't break on very small screens */
+@media (max-width: 480px) {
+  .header {
+    min-height: auto;
+  }
+
+  .header-content {
+    min-height: auto;
+    padding-bottom: 0.5rem;
+  }
+
+  .gooey-nav-container {
+    order: 3;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}

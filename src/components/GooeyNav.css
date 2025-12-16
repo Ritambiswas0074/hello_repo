@@ -1,0 +1,497 @@
+:root {
+  --linear-ease: linear(
+    0,
+    0.068,
+    0.19 2.7%,
+    0.804 8.1%,
+    1.037,
+    1.199 13.2%,
+    1.245,
+    1.27 15.8%,
+    1.274,
+    1.272 17.4%,
+    1.249 19.1%,
+    0.996 28%,
+    0.949,
+    0.928 33.3%,
+    0.926,
+    0.933 36.8%,
+    1.001 45.6%,
+    1.013,
+    1.019 50.8%,
+    1.018 54.4%,
+    1 63.1%,
+    0.995 68%,
+    1.001 85%,
+    1
+  );
+  --color-1: #ffffff;
+  --color-2: #00bfff;
+  --color-3: #ff00ff;
+  --color-4: #9d00ff;
+}
+
+.gooey-nav-container {
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gooey-nav-container nav {
+  display: flex;
+  position: relative;
+  transform: translate3d(0, 0, 0.01px);
+  overflow: visible;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.gooey-nav-container nav ul {
+  display: flex !important;
+  gap: clamp(1em, 3vw, 2em) !important;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  z-index: 3;
+  color: white;
+  text-shadow: 0 1px 1px hsl(205deg 30% 10% / 0.2);
+  align-items: center !important;
+  flex-wrap: nowrap !important;
+  overflow: visible;
+  min-width: 0;
+  width: 100%;
+  justify-content: center;
+}
+
+.gooey-nav-container nav ul li {
+  border-radius: 100vw;
+  position: relative;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+  box-shadow: 0 0 0.5px 1.5px transparent;
+  color: rgba(255, 255, 255, 0.9);
+  z-index: 10;
+  overflow: visible;
+  min-width: fit-content;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.gooey-nav-container nav ul li:hover {
+  color: rgba(255, 255, 255, 1);
+}
+
+.gooey-nav-container nav ul li:hover a {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.gooey-nav-container nav ul li a {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: clamp(0.6em, 1.8vw, 0.8em) clamp(1em, 2.5vw, 1.5em);
+  text-decoration: none;
+  color: inherit;
+  font-size: clamp(0.875rem, 2.5vw, 0.95rem);
+  font-weight: 500;
+  white-space: nowrap !important;
+  min-height: 44px;
+  min-width: fit-content !important;
+  flex-shrink: 0 !important;
+  flex-grow: 0 !important;
+  overflow: visible;
+  position: relative;
+  z-index: 11;
+  text-overflow: clip;
+  box-sizing: border-box;
+  margin: 0 !important;
+  gap: 0.3em;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  background: transparent;
+}
+
+.gooey-nav-container nav ul li.active a {
+  background: transparent;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-image: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+}
+
+.gooey-nav-container nav ul li:focus-within:has(:focus-visible) {
+  box-shadow: 0 0 0.5px 1.5px white;
+}
+
+.gooey-nav-container nav ul li::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 10px;
+  background: transparent;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+.gooey-nav-container nav ul li.active {
+  color: transparent;
+  font-weight: 600;
+  position: relative;
+  background: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gooey-nav-container nav ul li.active::before {
+  display: none;
+}
+
+.gooey-nav-container nav ul li.active::after {
+  display: none;
+}
+
+.gooey-nav-container .effect {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  opacity: 0;
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+  z-index: 2;
+  overflow: visible;
+  visibility: visible !important;
+}
+
+.gooey-nav-container .effect.active {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.gooey-nav-container .effect.text {
+  color: white;
+  transition: color 0.3s ease;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  display: none !important;
+}
+
+.gooey-nav-container .effect.text.active {
+  color: white;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  display: none !important;
+}
+
+.gooey-nav-container .effect.filter {
+  filter: blur(7px) contrast(100) blur(0);
+  mix-blend-mode: lighten;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  display: none !important;
+}
+
+.gooey-nav-container .effect.filter::before {
+  content: '';
+  position: absolute;
+  inset: -75px;
+  z-index: -2;
+  background: transparent;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  display: none;
+}
+
+.gooey-nav-container .effect.filter.active::before {
+  opacity: 0;
+  display: none;
+}
+
+.gooey-nav-container .effect.filter:not(.active)::before {
+  display: none;
+}
+
+.gooey-nav-container .effect.filter::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: transparent;
+  transform: scale(0);
+  opacity: 0;
+  z-index: -1;
+  border-radius: 100vw;
+}
+
+.gooey-nav-container .effect.active::after {
+  animation: none;
+  opacity: 0;
+}
+
+@keyframes pill {
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.particle,
+.point {
+  display: block;
+  opacity: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  transform-origin: center;
+}
+
+.particle {
+  --time: 5s;
+  position: absolute;
+  top: calc(50% - 8px);
+  left: calc(50% - 8px);
+  animation: particle calc(var(--time)) ease 1 -350ms;
+}
+
+.point {
+  background: var(--color);
+  opacity: 1;
+  animation: point calc(var(--time)) ease 1 -350ms;
+}
+
+@keyframes particle {
+  0% {
+    transform: rotate(0deg) translate(calc(var(--start-x)), calc(var(--start-y)));
+    opacity: 1;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+
+  70% {
+    transform: rotate(calc(var(--rotate) * 0.5)) translate(calc(var(--end-x) * 1.2), calc(var(--end-y) * 1.2));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+
+  85% {
+    transform: rotate(calc(var(--rotate) * 0.66)) translate(calc(var(--end-x)), calc(var(--end-y)));
+    opacity: 1;
+  }
+
+  100% {
+    transform: rotate(calc(var(--rotate) * 1.2)) translate(calc(var(--end-x) * 0.5), calc(var(--end-y) * 0.5));
+    opacity: 1;
+  }
+}
+
+@keyframes point {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+    animation-timing-function: cubic-bezier(0.55, 0, 1, 0.45);
+  }
+
+  25% {
+    transform: scale(calc(var(--scale) * 0.25));
+  }
+
+  38% {
+    opacity: 1;
+  }
+
+  65% {
+    transform: scale(var(--scale));
+    opacity: 1;
+    animation-timing-function: ease;
+  }
+
+  85% {
+    transform: scale(var(--scale));
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+/* ======== RESPONSIVE FIXES ======== */
+
+/* Intermediate screens - prevent squeezing */
+@media (max-width: 1200px) and (min-width: 1025px) {
+  .gooey-nav-container nav ul {
+    gap: clamp(0.8em, 2.5vw, 1.8em);
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.45em, 1.3vw, 0.5em) clamp(0.65em, 2.2vw, 1.1em);
+    font-size: clamp(0.85rem, 2.2vw, 0.9rem);
+  }
+}
+
+/* Tablets and smaller laptops */
+@media (max-width: 1024px) {
+  .gooey-nav-container nav ul {
+    gap: clamp(0.7em, 2.2vw, 1.5em);
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.4em, 1.2vw, 0.5em) clamp(0.6em, 2vw, 1em);
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
+  }
+}
+
+/* Phones & small tablets */
+@media (max-width: 768px) {
+  .gooey-nav-container {
+    width: 100%;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .gooey-nav-container nav {
+    width: 100%;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  .gooey-nav-container nav ul {
+    gap: clamp(0.6em, 2vw, 1.2em) !important;
+    flex-wrap: nowrap !important;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+  }
+
+  .gooey-nav-container nav ul li a {
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+    padding: clamp(0.5em, 1.5vw, 0.7em) clamp(0.8em, 2vw, 1.2em) !important;
+  }
+
+  .gooey-nav-container nav ul li.active {
+    color: transparent;
+    background: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gooey-nav-container nav ul li.active a {
+    background: transparent;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.35em, 1vw, 0.45em) clamp(0.5em, 1.5vw, 0.85em);
+    font-size: clamp(0.75rem, 2vw, 0.85rem);
+    white-space: nowrap;
+    overflow: visible;
+    text-overflow: clip;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 640px) {
+  .gooey-nav-container nav ul {
+    gap: clamp(0.5em, 1.8vw, 1em) !important;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.45em, 1.3vw, 0.65em) clamp(0.7em, 1.8vw, 1.1em) !important;
+    font-size: clamp(0.7rem, 1.8vw, 0.8rem);
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+  }
+
+  .gooey-nav-container nav ul li.active {
+    color: transparent;
+    background: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gooey-nav-container nav ul li.active a {
+    background: transparent;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+  }
+}
+
+/* Extra small phones */
+@media (max-width: 480px) {
+  .gooey-nav-container nav ul {
+    gap: clamp(0.4em, 1.5vw, 0.8em) !important;
+  }
+
+  .gooey-nav-container nav ul li {
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+  }
+
+  .gooey-nav-container nav ul li a {
+    padding: clamp(0.4em, 1.2vw, 0.6em) clamp(0.65em, 1.6vw, 1em) !important;
+    font-size: clamp(0.65rem, 1.5vw, 0.75rem);
+    flex-shrink: 0 !important;
+    min-width: fit-content !important;
+  }
+
+  .gooey-nav-container nav ul li.active {
+    color: transparent;
+    background: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .gooey-nav-container nav ul li.active a {
+    background: transparent;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+  }
+}
+

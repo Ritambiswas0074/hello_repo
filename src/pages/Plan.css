@@ -1,0 +1,583 @@
+.plan-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0a0a0a 0%, #171717 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+.plan-page::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(132, 0, 255, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(0, 191, 255, 0.1) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.plan-page-content {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: clamp(4rem, 6vh, 5rem) clamp(1rem, 3vw, 2rem) clamp(2rem, 4vh, 4rem);
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vh, 4rem);
+}
+
+.plan-header-section {
+  text-align: center;
+  margin-bottom: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-main-title {
+  font-size: clamp(1.5rem, 6vw, 3.5rem);
+  font-weight: 800;
+  margin: 0 0 clamp(0.75rem, 2vh, 1.5rem) 0;
+  line-height: 1.2;
+  padding-top: clamp(2rem, 5vh, 4rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-subtitle {
+  font-size: clamp(0.95rem, 2.5vw, 1.25rem);
+  color: rgba(255, 255, 255, 0.7);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
+}
+
+.plans-container {
+  display: flex;
+  flex-direction: row;
+  gap: clamp(1rem, 2.5vw, 2rem);
+  margin-bottom: 0;
+  align-items: stretch;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(23, 13, 39, 0.95), rgba(39, 30, 55, 0.9));
+  border: 2px solid rgba(132, 0, 255, 0.2);
+  border-radius: clamp(16px, 2.5vw, 24px);
+  padding: 0;
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(20px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: clamp(500px, 60vh, 580px);
+  flex: 1;
+  max-width: clamp(280px, 30vw, 350px);
+  min-width: clamp(250px, 28vw, 300px);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, #ff00ff, #b84dff, #00bfff);
+  border-radius: 32px 32px 0 0;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.plan-card:hover::before {
+  opacity: 0;
+}
+
+.plan-card:hover {
+  transform: none;
+  border-color: rgba(132, 0, 255, 0.2);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+
+
+.plan-card-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 2.5vw, 1.75rem);
+  position: relative;
+  z-index: 2;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+}
+
+.plan-title-section {
+  text-align: center;
+  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  padding-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-name {
+  font-size: clamp(1.3rem, 4vw, 1.75rem);
+  font-weight: 800;
+  margin: 0 0 clamp(0.75rem, 2vh, 1rem) 0;
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-price-section {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: clamp(0.25rem, 0.8vw, 0.3rem);
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.currency {
+  font-size: clamp(1.25rem, 3.5vw, 1.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.price-value {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.price-period {
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  color: rgba(255, 255, 255, 0.6);
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-description {
+  font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+  color: rgba(255, 255, 255, 0.7);
+  margin: clamp(0.5rem, 1.5vh, 0.75rem) 0 0 0;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+  line-height: 1.5;
+}
+
+.empty-state {
+  text-align: center;
+  padding: clamp(1.5rem, 4vh, 3rem);
+  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.plan-features-section {
+  flex: 1;
+  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  min-height: 0;
+  overflow-y: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  padding: clamp(0.4rem, 1vh, 0.5rem);
+  border-radius: clamp(8px, 1.5vw, 10px);
+  transition: all 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.feature-item:hover {
+  background: transparent;
+  transform: none;
+  padding-left: clamp(0.4rem, 1vw, 0.5rem);
+}
+
+.check-mark {
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 6px rgba(132, 0, 255, 0.6));
+  width: clamp(16px, 2.5vw, 20px);
+  height: clamp(16px, 2.5vw, 20px);
+}
+
+.feature-text {
+  color: rgba(255, 255, 255, 0.95);
+  font-size: clamp(0.85rem, 2.2vw, 0.9rem);
+  font-weight: 500;
+  line-height: 1.5;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-action-section {
+  margin-top: auto;
+  padding-top: clamp(1rem, 2.5vh, 1.5rem);
+  flex-shrink: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-cta-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.4rem, 1vw, 0.5rem);
+  width: 100%;
+  padding: clamp(0.875rem, 2.5vh, 1.1rem) clamp(1.25rem, 3vw, 1.5rem);
+  background: linear-gradient(135deg, rgba(132, 0, 255, 0.3), rgba(0, 191, 255, 0.3));
+  border: 2px solid rgba(132, 0, 255, 0.6);
+  border-radius: clamp(10px, 1.8vw, 14px);
+  color: #ffffff;
+  font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+  font-weight: 800;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 
+    0 6px 20px rgba(132, 0, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  box-sizing: border-box;
+  max-width: 100%;
+  white-space: nowrap;
+}
+
+.plan-cta-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #ff00ff, #b84dff, #00bfff);
+  transition: left 0.4s ease;
+  z-index: -1;
+}
+
+.plan-cta-button:hover {
+  border-color: rgba(132, 0, 255, 0.6);
+  color: #ffffff;
+  transform: none;
+  box-shadow: 
+    0 6px 20px rgba(132, 0, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.plan-cta-button:hover::before {
+  left: 0;
+}
+
+.plan-cta-button svg {
+  transition: transform 0.3s ease;
+}
+
+.plan-cta-button:hover svg {
+  transform: translateX(4px);
+}
+
+
+.plan-footer-note {
+  text-align: center;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: rgba(132, 0, 255, 0.1);
+  border: 1px solid rgba(132, 0, 255, 0.3);
+  border-radius: clamp(12px, 2vw, 20px);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.plan-footer-note p {
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0;
+  font-size: clamp(0.95rem, 2.5vw, 1.05rem);
+  line-height: 1.7;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.action-buttons {
+  display: flex;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  justify-content: center;
+  margin-top: clamp(1.5rem, 4vh, 2rem);
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.action-buttons .btn {
+  min-width: clamp(140px, 30vw, 200px);
+  padding: clamp(0.875rem, 2.5vh, 1rem) clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(0.9rem, 2.2vw, 1rem);
+  box-sizing: border-box;
+}
+
+@media (max-width: 1200px) {
+  .plans-container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .plan-card {
+    max-width: 320px;
+    min-width: 280px;
+  }
+}
+
+@media (max-width: 968px) {
+  .plans-container {
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+
+  .plan-card {
+    max-width: 100%;
+    min-width: 280px;
+    flex: 0 1 calc(50% - 0.75rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .plan-page-content {
+    padding: clamp(3.5rem, 5.5vh, 4.5rem) clamp(1rem, 2vw, 1.5rem) clamp(1.5rem, 3vh, 3rem);
+  }
+
+  .plan-header-section {
+    margin-bottom: 0;
+  }
+
+  .plan-main-title {
+    font-size: clamp(1.4rem, 5.5vw, 2rem) !important;
+    margin-bottom: clamp(0.75rem, 2vh, 1rem);
+    padding-top: clamp(3.5rem, 8vh, 6rem);
+  }
+
+  .plan-subtitle {
+    font-size: clamp(0.9rem, 2.5vw, 1rem) !important;
+    padding: 0 clamp(0.5rem, 1.5vw, 1rem);
+  }
+
+  .plans-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+    padding: 0;
+  }
+
+  .plan-card {
+    min-height: auto;
+    height: auto;
+    max-width: 100%;
+    width: 100%;
+    min-width: 100%;
+  }
+
+  .plan-card-inner {
+    padding: clamp(1rem, 2.5vw, 1.5rem) clamp(0.875rem, 2vw, 1.25rem);
+  }
+
+  .plan-name {
+    font-size: clamp(1.1rem, 3.5vw, 1.35rem) !important;
+  }
+
+  .price-value {
+    font-size: clamp(1.5rem, 4vw, 2rem) !important;
+  }
+
+  .currency {
+    font-size: clamp(1.1rem, 3vw, 1.25rem) !important;
+  }
+
+  .price-period {
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem) !important;
+  }
+
+  .feature-text {
+    font-size: clamp(0.8rem, 2vw, 0.85rem) !important;
+  }
+
+  .plan-cta-button {
+    padding: clamp(0.875rem, 2vh, 0.95rem) clamp(1rem, 2.5vw, 1.25rem);
+    font-size: clamp(0.85rem, 2vw, 0.9rem);
+  }
+
+  .plan-footer-note {
+    padding: clamp(1rem, 2.5vw, 1.5rem) clamp(0.75rem, 2vw, 1rem);
+    margin-top: clamp(1.5rem, 4vh, 2rem);
+  }
+
+  .plan-footer-note p {
+    font-size: clamp(0.85rem, 2.2vw, 0.95rem) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .plan-page-content {
+    padding: clamp(3rem, 4.5vh, 4rem) clamp(0.75rem, 1.5vw, 1rem) clamp(1.25rem, 2.5vh, 2rem);
+  }
+
+  .plan-main-title {
+    font-size: clamp(1.25rem, 5vw, 1.75rem) !important;
+    padding-top: clamp(3rem, 7vh, 5rem);
+  }
+
+  .plan-subtitle {
+    font-size: clamp(0.85rem, 2.2vw, 0.9rem) !important;
+  }
+
+  .plan-name {
+    font-size: clamp(1rem, 3vw, 1.2rem) !important;
+  }
+
+  .price-value {
+    font-size: clamp(1.25rem, 3.5vw, 1.75rem) !important;
+  }
+
+  .currency {
+    font-size: clamp(1rem, 2.8vw, 1.1rem) !important;
+  }
+
+  .plan-cta-button {
+    padding: clamp(0.75rem, 1.8vh, 0.875rem) clamp(0.875rem, 2vw, 1rem);
+    font-size: clamp(0.8rem, 1.8vw, 0.85rem);
+  }
+
+  .check-mark {
+    width: clamp(16px, 2.2vw, 18px);
+    height: clamp(16px, 2.2vw, 18px);
+  }
+
+  .feature-text {
+    font-size: clamp(0.75rem, 1.8vw, 0.8rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .plan-page-content {
+    padding: clamp(2.5rem, 4vh, 3.5rem) clamp(0.5rem, 1.2vw, 0.75rem) clamp(1rem, 2vh, 1.5rem);
+  }
+
+  .plan-main-title {
+    font-size: clamp(1.1rem, 4.5vw, 1.75rem) !important;
+    padding-top: clamp(2.5rem, 6vh, 4.5rem);
+  }
+
+  .plan-subtitle {
+    font-size: clamp(0.8rem, 2vw, 0.9rem) !important;
+  }
+
+  .plan-card-inner {
+    padding: clamp(0.875rem, 2vw, 1.25rem) clamp(0.75rem, 1.8vw, 1rem);
+  }
+
+  .plan-name {
+    font-size: clamp(0.95rem, 2.8vw, 1.2rem) !important;
+  }
+
+  .price-value {
+    font-size: clamp(1.1rem, 3vw, 1.75rem) !important;
+  }
+
+  .currency {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem) !important;
+  }
+
+  .plan-cta-button {
+    padding: clamp(0.7rem, 1.6vh, 0.875rem) clamp(0.75rem, 1.8vw, 1rem);
+    font-size: clamp(0.75rem, 1.6vw, 0.85rem);
+  }
+
+  .check-mark {
+    width: clamp(14px, 2vw, 18px);
+    height: clamp(14px, 2vw, 18px);
+  }
+
+  .feature-text {
+    font-size: clamp(0.7rem, 1.6vw, 0.8rem) !important;
+  }
+}
+

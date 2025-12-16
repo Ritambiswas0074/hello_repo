@@ -1,0 +1,127 @@
+.scroll-velocity-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 150px;
+  z-index: 2;
+  pointer-events: none;
+  overflow: hidden;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(10, 10, 10, 0.2) 30%,
+    rgba(10, 10, 10, 0.4) 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(0, 0, 0, 0.8) 30%,
+    rgba(0, 0, 0, 0) 100%
+  );
+}
+
+.scroll-velocity-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  position: relative;
+}
+
+.scroll-velocity-content {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  animation: scroll-horizontal var(--animation-speed, 20s) linear infinite;
+  gap: 2rem;
+}
+
+.scroll-velocity-content:nth-child(2) {
+  animation: scroll-horizontal-reverse var(--animation-speed, 20s) linear infinite;
+}
+
+.scroll-velocity-item {
+  display: inline-flex;
+  align-items: center;
+  font-size: 4rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: linear-gradient(135deg, #ff00ff, #9d00ff, #0066ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.3s ease;
+  padding: 0 1rem;
+  opacity: 0.4;
+  filter: brightness(1.2);
+}
+
+.scroll-velocity-item:hover {
+  opacity: 0.6;
+  transform: scale(1.05);
+  filter: brightness(1.4);
+}
+
+.scroll-velocity-separator {
+  margin: 0 1rem;
+  color: rgba(255, 28, 247, 0.3);
+  font-size: 3rem;
+  font-weight: 300;
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-horizontal-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 1024px) {
+  .scroll-velocity-item {
+    font-size: 3rem;
+  }
+
+  .scroll-velocity-separator {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .scroll-velocity-container {
+    height: 80px;
+  }
+
+  .scroll-velocity-item {
+    font-size: 2rem;
+    padding: 0 0.5rem;
+  }
+
+  .scroll-velocity-separator {
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+  }
+
+  .scroll-velocity-content {
+    gap: 1rem;
+  }
+}
+

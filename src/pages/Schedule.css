@@ -1,0 +1,373 @@
+/* Page Title and Description Overrides for Schedule Page */
+.page-content .page-title {
+  font-size: clamp(1.5rem, 6vw, 4.5rem) !important;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+  padding-top: clamp(4rem, 9vh, 8rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.page-content .page-description {
+  font-size: clamp(0.95rem, 2.5vw, 1.25rem) !important;
+  line-height: 1.6;
+  margin-bottom: clamp(2rem, 5vh, 3rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Lower the header section for Schedule page */
+.page-container {
+  padding-top: clamp(4rem, 6vh, 5rem) !important;
+}
+
+.schedule-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: clamp(12px, 2vw, 16px);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  backdrop-filter: blur(10px);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-container {
+  margin-bottom: clamp(1.5rem, 4vh, 2rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-header {
+  text-align: center;
+  margin-bottom: clamp(1rem, 2.5vh, 2rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-header h2 {
+  color: #ffffff;
+  font-size: clamp(1.3rem, 4vw, 1.8rem);
+  margin: 0;
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: clamp(0.4rem, 1vw, 0.5rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-day-header {
+  text-align: center;
+  padding: clamp(0.75rem, 1.5vw, 1rem);
+  color: rgba(255, 255, 255, 0.7);
+  font-weight: 600;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: clamp(6px, 1vw, 8px);
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: clamp(0.85rem, 2.2vw, 1rem);
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.calendar-day:hover:not(.empty):not(.past):not(.within-48-hours) {
+  background: rgba(255, 255, 255, 0.1);
+  transform: scale(1.05);
+}
+
+.calendar-day.empty {
+  background: transparent;
+  cursor: default;
+}
+
+.calendar-day.past,
+.calendar-day.within-48-hours {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+  background: rgba(255, 0, 0, 0.1);
+  position: relative;
+}
+
+.calendar-day.within-48-hours::after {
+  content: '48h';
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.6rem;
+  color: rgba(255, 0, 0, 0.6);
+  font-weight: 600;
+}
+
+.calendar-day.selected {
+  background: linear-gradient(135deg, #0066ff, #00bfff);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 102, 255, 0.4);
+}
+
+.selected-dates {
+  margin: clamp(1.5rem, 4vh, 2rem) 0;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: clamp(8px, 1.5vw, 12px);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.selected-dates h3 {
+  color: #ffffff;
+  margin-bottom: clamp(0.75rem, 2vh, 1rem);
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.dates-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.date-badge {
+  background: linear-gradient(135deg, #9d00ff, #ff00ff);
+  color: #ffffff;
+  padding: clamp(0.5rem, 1.5vh, 0.75rem) clamp(0.75rem, 2vw, 1rem);
+  border-radius: clamp(15px, 2vw, 20px);
+  font-size: clamp(0.85rem, 2.2vw, 0.9rem);
+  font-weight: 500;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.time-selection {
+  margin-top: clamp(1rem, 2.5vh, 1.5rem);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.time-selection h3 {
+  margin-bottom: clamp(0.75rem, 2vh, 1rem);
+  color: #ffffff;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.time-selection label {
+  display: block;
+  margin-bottom: clamp(0.5rem, 1.5vh, 0.75rem);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.9rem, 2.2vw, 1rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.time-selection input[type="time"] {
+  width: 100%;
+  padding: clamp(0.7rem, 1.8vh, 0.75rem);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: clamp(6px, 1.5vw, 8px);
+  color: #ffffff;
+  font-size: clamp(0.9rem, 2.2vw, 1rem);
+  box-sizing: border-box;
+}
+
+.time-selection p {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: clamp(0.8rem, 2vw, 0.85rem);
+  margin-top: clamp(0.5rem, 1.5vh, 0.75rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.selection-hint {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(0.75rem, 1.8vw, 0.85rem);
+  margin-top: clamp(0.5rem, 1.5vh, 0.75rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.action-buttons {
+  margin-top: clamp(1.5rem, 4vh, 2rem);
+  display: flex;
+  justify-content: center;
+  gap: clamp(0.75rem, 1.5vw, 1rem);
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.action-buttons .btn {
+  min-width: clamp(140px, 30vw, 200px);
+  padding: clamp(0.875rem, 2.5vh, 1rem) clamp(1.5rem, 4vw, 2rem);
+  font-size: clamp(0.9rem, 2.2vw, 1rem);
+  box-sizing: border-box;
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding-top: clamp(3.5rem, 5.5vh, 4.5rem) !important;
+  }
+
+  .page-content .page-title {
+    font-size: clamp(1.4rem, 5.5vw, 2.5rem) !important;
+    padding-top: clamp(3.5rem, 8vh, 6rem);
+  }
+
+  .page-content .page-description {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
+  }
+
+  .schedule-section {
+    padding: clamp(1.25rem, 3vw, 2rem) clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .calendar-header h2 {
+    font-size: clamp(1.2rem, 3.5vw, 1.5rem) !important;
+  }
+
+  .calendar-day {
+    font-size: clamp(0.8rem, 2vw, 0.85rem) !important;
+    padding: clamp(0.4rem, 1vw, 0.5rem);
+  }
+
+  .calendar-day-header {
+    padding: clamp(0.6rem, 1.2vw, 0.75rem) clamp(0.4rem, 1vw, 0.5rem);
+    font-size: clamp(0.75rem, 1.8vw, 0.8rem) !important;
+  }
+
+  .selected-dates h3 {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem) !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    padding-top: clamp(3rem, 4.5vh, 4rem) !important;
+  }
+
+  .page-content .page-title {
+    font-size: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-top: clamp(3rem, 7vh, 5rem);
+  }
+
+  .page-content .page-description {
+    font-size: clamp(0.85rem, 2.2vw, 1rem) !important;
+  }
+
+  .calendar-header h2 {
+    font-size: clamp(1.1rem, 3vw, 1.3rem) !important;
+  }
+
+  .calendar-day {
+    font-size: clamp(0.75rem, 1.8vw, 0.8rem) !important;
+  }
+
+  .calendar-day-header {
+    font-size: clamp(0.7rem, 1.6vw, 0.75rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding-top: clamp(2.5rem, 4vh, 3.5rem) !important;
+  }
+
+  .page-content .page-title {
+    font-size: clamp(1.1rem, 4.5vw, 1.75rem) !important;
+    padding-top: clamp(2.5rem, 6vh, 4.5rem);
+  }
+
+  .page-content .page-description {
+    font-size: clamp(0.8rem, 2vw, 0.95rem) !important;
+  }
+
+  .schedule-section {
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+  }
+
+  .calendar-header h2 {
+    font-size: clamp(1rem, 2.8vw, 1.2rem) !important;
+  }
+
+  .calendar-day {
+    font-size: clamp(0.7rem, 1.6vw, 0.75rem) !important;
+  }
+
+  .calendar-day-header {
+    padding: clamp(0.5rem, 1vw, 0.6rem) clamp(0.3rem, 0.8vw, 0.4rem);
+    font-size: clamp(0.65rem, 1.4vw, 0.7rem) !important;
+  }
+
+  .selected-dates {
+    padding: clamp(1rem, 2.5vw, 1.25rem);
+  }
+
+  .selected-dates h3 {
+    font-size: clamp(0.9rem, 2.2vw, 1rem) !important;
+  }
+}
+

@@ -1,0 +1,106 @@
+.scroll-list-container {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.scroll-list {
+  height: calc(100vh - 250px);
+  min-height: 600px;
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 2rem 20px 2rem;
+  flex: 1;
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+}
+
+.scroll-list::-webkit-scrollbar {
+  width: 10px;
+}
+
+.scroll-list::-webkit-scrollbar-track {
+  background: rgba(6, 0, 16, 0.5);
+  border-radius: 10px;
+}
+
+.scroll-list::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(132, 0, 255, 0.6), rgba(132, 0, 255, 0.3));
+  border-radius: 10px;
+  border: 2px solid rgba(6, 0, 16, 0.5);
+}
+
+.scroll-list::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, rgba(132, 0, 255, 0.8), rgba(132, 0, 255, 0.5));
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.item {
+  padding: 0;
+  background-color: transparent;
+  border-radius: 0;
+  margin-bottom: 0;
+  transition: none;
+}
+
+/* Default item styling for simple text items */
+.item .item-text {
+  display: block;
+  padding: 16px;
+  background-color: #170d27;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  color: white;
+  margin: 0;
+}
+
+.item.selected .item-text {
+  background-color: #271e37;
+  border: 1px solid rgba(132, 0, 255, 0.5);
+  box-shadow: 0 0 20px rgba(132, 0, 255, 0.3);
+}
+
+.item:hover .item-text {
+  background-color: #1f132f;
+  transform: translateX(4px);
+}
+
+.top-gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background: linear-gradient(to bottom, #060010, transparent);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+
+.bottom-gradient {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to top, #060010, transparent);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+

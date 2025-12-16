@@ -1,0 +1,363 @@
+/* Lower the header section for About page */
+.page-container {
+  padding-top: clamp(4rem, 6vh, 5rem) !important;
+}
+
+.about-content {
+  max-width: 900px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(1.5rem, 4vh, 2rem);
+}
+
+.about-section {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: clamp(12px, 2vw, 16px);
+  padding: clamp(1.5rem, 4vw, 3rem);
+  margin-bottom: 0;
+  backdrop-filter: blur(10px);
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.about-section h2 {
+  color: #ffffff;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  margin-bottom: clamp(1rem, 2.5vh, 1.5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.about-section p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  line-height: 1.8;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(180px, 25vw, 200px), 1fr));
+  gap: clamp(1rem, 3vw, 2rem);
+  margin-top: clamp(1rem, 2.5vh, 2rem);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.step {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.step-number {
+  width: clamp(50px, 8vw, 60px);
+  height: clamp(50px, 8vw, 60px);
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0066ff, #00bfff);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: clamp(1.25rem, 3vw, 1.5rem);
+  font-weight: 700;
+  margin: 0 auto clamp(0.75rem, 2vh, 1rem);
+  flex-shrink: 0;
+}
+
+.step h3 {
+  color: #ffffff;
+  font-size: clamp(1.1rem, 3vw, 1.3rem);
+  margin-bottom: clamp(0.5rem, 1.5vh, 0.75rem);
+  font-weight: 600;
+  background: linear-gradient(135deg, #ff00ff, #00bfff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.step p {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(0.85rem, 2.2vw, 0.95rem);
+  line-height: 1.6;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Page Title and Description Overrides for About Page */
+.page-content .page-title {
+  font-size: clamp(1.5rem, 6vw, 4.5rem) !important;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: clamp(0.5rem, 1.5vh, 1rem);
+  padding-top: clamp(4rem, 9vh, 8rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.page-content .page-description {
+  font-size: clamp(0.95rem, 2.5vw, 1.25rem) !important;
+  line-height: 1.6;
+  margin-bottom: clamp(2rem, 5vh, 3rem);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Social Icons Section */
+.social-icons-about {
+  display: flex;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+  align-items: center;
+  justify-content: center;
+  margin-top: clamp(1rem, 2.5vh, 2rem);
+  flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.social-link-about {
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  position: relative;
+  width: clamp(48px, 6vw, 64px);
+  height: clamp(48px, 6vw, 64px);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.social-link-about svg {
+  fill: currentColor;
+  transition: all 0.3s ease;
+  width: clamp(24px, 3vw, 32px);
+  height: clamp(24px, 3vw, 32px);
+}
+
+.social-link-about:hover {
+  color: transparent;
+  transform: translateY(-4px) scale(1.1);
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Instagram - gradient theme colors */
+.social-link-about[aria-label="Instagram"]:hover svg {
+  fill: url(#instagramGradient);
+  filter: drop-shadow(0 0 12px rgba(255, 0, 255, 0.8));
+}
+
+/* LinkedIn - blue theme color */
+.social-link-about[aria-label="LinkedIn"]:hover svg {
+  fill: url(#linkedinGradient);
+  filter: drop-shadow(0 0 12px rgba(0, 191, 255, 0.8));
+}
+
+/* Facebook - purple theme color */
+.social-link-about[aria-label="Facebook"]:hover svg {
+  fill: url(#facebookGradient);
+  filter: drop-shadow(0 0 12px rgba(184, 77, 255, 0.8));
+}
+
+/* Fallback colors if gradients don't work */
+@supports not (fill: url(#instagramGradient)) {
+  .social-link-about[aria-label="Instagram"]:hover svg {
+    fill: #ff00ff;
+    filter: drop-shadow(0 0 12px rgba(255, 0, 255, 0.8));
+  }
+  .social-link-about[aria-label="LinkedIn"]:hover svg {
+    fill: #00bfff;
+    filter: drop-shadow(0 0 12px rgba(0, 191, 255, 0.8));
+  }
+  .social-link-about[aria-label="Facebook"]:hover svg {
+    fill: #b84dff;
+    filter: drop-shadow(0 0 12px rgba(184, 77, 255, 0.8));
+  }
+}
+
+@media (max-width: 768px) {
+  .page-container {
+    padding-top: clamp(3.5rem, 5vh, 4.5rem) !important;
+  }
+
+  .page-content .page-title {
+    font-size: clamp(1.4rem, 5.5vw, 2.5rem) !important;
+    padding-top: clamp(3.5rem, 8vh, 6rem);
+  }
+
+  .page-content .page-description {
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem) !important;
+  }
+
+  .about-section {
+    padding: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .about-section h2 {
+    font-size: clamp(1.4rem, 4.5vw, 1.75rem) !important;
+  }
+
+  .about-section p {
+    font-size: clamp(0.9rem, 2.2vw, 1rem) !important;
+  }
+
+  .steps {
+    grid-template-columns: 1fr;
+    gap: clamp(1rem, 2.5vw, 1.5rem);
+  }
+
+  .step-number {
+    width: clamp(48px, 7vw, 56px);
+    height: clamp(48px, 7vw, 56px);
+    font-size: clamp(1.15rem, 2.8vw, 1.4rem);
+  }
+
+  .step h3 {
+    font-size: clamp(1rem, 2.8vw, 1.2rem) !important;
+  }
+
+  .step p {
+    font-size: clamp(0.8rem, 2vw, 0.9rem) !important;
+  }
+
+  .social-icons-about {
+    gap: clamp(1rem, 2.5vw, 2rem);
+    margin-top: clamp(1rem, 2.5vh, 1.5rem);
+  }
+
+  .social-link-about {
+    width: clamp(44px, 5.5vw, 56px);
+    height: clamp(44px, 5.5vw, 56px);
+  }
+
+  .social-link-about svg {
+    width: clamp(22px, 2.8vw, 28px);
+    height: clamp(22px, 2.8vw, 28px);
+  }
+}
+
+@media (max-width: 640px) {
+  .page-container {
+    padding-top: clamp(3rem, 4.5vh, 4rem) !important;
+  }
+
+  .page-content .page-title {
+    font-size: clamp(1.25rem, 5vw, 2rem) !important;
+    padding-top: clamp(3rem, 7vh, 5rem);
+  }
+
+  .page-content .page-description {
+    font-size: clamp(0.85rem, 2.2vw, 1rem) !important;
+  }
+
+  .about-section h2 {
+    font-size: clamp(1.25rem, 4vw, 1.5rem) !important;
+  }
+
+  .about-section p {
+    font-size: clamp(0.85rem, 2vw, 0.95rem) !important;
+  }
+
+  .step-number {
+    width: clamp(44px, 6.5vw, 52px);
+    height: clamp(44px, 6.5vw, 52px);
+    font-size: clamp(1.1rem, 2.5vw, 1.3rem);
+  }
+
+  .step h3 {
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem) !important;
+  }
+
+  .step p {
+    font-size: clamp(0.75rem, 1.8vw, 0.85rem) !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    padding-top: clamp(2.5rem, 4vh, 3.5rem) !important;
+  }
+
+  .page-content .page-title {
+    font-size: clamp(1.1rem, 4.5vw, 1.75rem) !important;
+    padding-top: clamp(2.5rem, 6vh, 4.5rem);
+  }
+
+  .page-content .page-description {
+    font-size: clamp(0.8rem, 2vw, 0.95rem) !important;
+  }
+
+  .about-section {
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+  }
+
+  .about-section h2 {
+    font-size: clamp(1.1rem, 3.5vw, 1.4rem) !important;
+  }
+
+  .about-section p {
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem) !important;
+  }
+
+  .step-number {
+    width: clamp(40px, 6vw, 48px);
+    height: clamp(40px, 6vw, 48px);
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+  }
+
+  .step h3 {
+    font-size: clamp(0.9rem, 2.2vw, 1rem) !important;
+  }
+
+  .step p {
+    font-size: clamp(0.7rem, 1.6vw, 0.8rem) !important;
+  }
+
+  .social-icons-about {
+    gap: clamp(0.75rem, 2vw, 1.5rem);
+  }
+
+  .social-link-about {
+    width: clamp(40px, 5vw, 52px);
+    height: clamp(40px, 5vw, 52px);
+  }
+
+  .social-link-about svg {
+    width: clamp(20px, 2.5vw, 26px);
+    height: clamp(20px, 2.5vw, 26px);
+  }
+}
+
