@@ -34,6 +34,21 @@ app.use(cors({
     // Allow requests with no origin (like mobile apps or curl requests)
     if (!origin) return callback(null, true);
     
+    // In production, allow all origins (or specific ones from env)
+    // This allows the frontend to be deployed anywhere
+    if (process.env.NODE_ENV === 'production') {
+      // If FRONTEND_URL is set, prefer it, otherwise allow all
+      if (process.env.FRONTEND_URL) {
+        const frontendUrls = process.env.FRONTEND_URL.split(',').map(url => url.trim());
+        if (frontendUrls.includes(origin) || allowedOrigins.includes(origin)) {
+          return callback(null, true);
+        }
+      }
+      // Allow all origins in production for flexibility
+      return callback(null, true);
+    }
+    
+    // Development: allow specific origins
     if (allowedOrigins.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
