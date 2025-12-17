@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import prisma from '../config/database';
 import { AuthRequest } from '../types';
-import { formatDate, formatTime, formatDateTime } from '../utils/date.utils';
+import { formatDate, formatTime, formatDateTime, formatDateIST, formatTimeIST, formatDateTimeIST, convertToISTISO } from '../utils/date.utils';
 // Removed calculateEndTime import - can't calculate without plan info
 
 // Get all bookings for admin view (master table)
@@ -378,10 +378,10 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         // If we have startTime, use its date portion; otherwise use the date field
         const eventDate = startTime || new Date(booking.schedule.date);
         
-        // Format date and time for display using local timezone to preserve user's selection
-        const formattedDate = formatDate(eventDate, startTime);
-        const formattedStartTime = formatTime(startTime);
-        const formattedEndTime = formatTime(endTime);
+        // Format date and time for display using IST timezone
+        const formattedDate = formatDateIST(booking.schedule.date, startTime);
+        const formattedStartTime = formatTimeIST(startTime);
+        const formattedEndTime = formatTimeIST(endTime);
 
         // Only show start time (no end time range)
         const timeSlot = formattedStartTime || 'Time not specified';
@@ -532,17 +532,17 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
             latitude: booking.location.latitude,
             longitude: booking.location.longitude,
           },
-          // Schedule information
+          // Schedule information - convert all times to IST
           schedule: {
             id: booking.schedule.id,
             date: booking.schedule.date,
             dateFormatted: formattedDate,
-            startTime: booking.schedule.startTime,
-            endTime: booking.schedule.endTime || (startTime ? endTime?.toISOString() : null),
+            startTime: convertToISTISO(booking.schedule.startTime),
+            endTime: convertToISTISO(booking.schedule.endTime) || (startTime ? convertToISTISO(endTime) : null),
             startTimeFormatted: formattedStartTime,
             endTimeFormatted: formattedEndTime,
             timeSlot: timeSlot,
-            eventDateTime: formatDateTime(eventDate, startTime),
+            eventDateTime: formatDateTimeIST(booking.schedule.date, startTime),
           },
           // Media information - ALWAYS an array of all related media
           // Ensure it's always an array, never a single object
@@ -648,13 +648,13 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
           } : null,
           uploadedAt: vid.createdAt,
         })),
-        // Schedules summary
+        // Schedules summary - convert times to IST
         totalSchedules: user.schedules.length,
         schedules: user.schedules.map(schedule => ({
           id: schedule.id,
           date: schedule.date,
-          startTime: schedule.startTime,
-          endTime: schedule.endTime,
+          startTime: convertToISTISO(schedule.startTime),
+          endTime: convertToISTISO(schedule.endTime),
           isAvailable: schedule.isAvailable,
           location: {
             id: schedule.location.id,
