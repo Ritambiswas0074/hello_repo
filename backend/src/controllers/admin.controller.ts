@@ -447,6 +447,17 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
           });
         }
 
+        // Remove duplicate media based on URL (keep only the first occurrence)
+        const seenUrls = new Set<string>();
+        relatedMedia = relatedMedia.filter((media) => {
+          if (!media.url) return true; // Keep items without URLs
+          if (seenUrls.has(media.url)) {
+            return false; // Skip duplicates
+          }
+          seenUrls.add(media.url);
+          return true;
+        });
+
         // Ensure the primary booking media is included
         const primaryMediaId = booking.media.id;
         const hasPrimaryMedia = relatedMedia.some(m => m.id === primaryMediaId);
@@ -503,18 +514,15 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
           }];
         }
 
-        // Debug logging to verify we're returning an array
-        console.log(`[getAllUserActivity] Booking ${booking.id}: Found ${formattedMedia.length} media items for this specific booking`, {
-          bookingCreatedAt: booking.createdAt,
-          scheduleCreatedAt: booking.schedule.createdAt || booking.schedule.date,
-          timeWindow: {
-            start: timeWindowStart.toISOString(),
-            end: timeWindowEnd.toISOString()
-          },
-          primaryMediaId: booking.media.id,
-          primaryMediaFeatureType: booking.media.featureType,
-          mediaIds: formattedMedia.map(m => ({ id: m.id, featureType: m.featureType })),
-          isArray: Array.isArray(formattedMedia)
+        // Remove duplicate formatted media based on URL (in case duplicates were added)
+        const seenFormattedUrls = new Set<string>();
+        formattedMedia = formattedMedia.filter((media) => {
+          if (!media.url) return true;
+          if (seenFormattedUrls.has(media.url)) {
+            return false;
+          }
+          seenFormattedUrls.add(media.url);
+          return true;
         });
 
         return {
