@@ -180,6 +180,7 @@ function Template() {
                 enableArrowNavigation={true}
                 displayScrollbar={true}
                 initialSelectedIndex={-1}
+                horizontal={true}
                 renderItem={(template, index, isSelected) => (
                   <div 
                     key={template.id}
@@ -207,19 +208,21 @@ function Template() {
                           )}
                         </div>
                         {template.isActive && (
-                          <div className="template-radio-container">
-                            <input
-                              type="radio"
-                              id={`template-${template.id}`}
-                              name="template-selection"
-                              value={template.id}
-                              checked={selectedTemplate === template.id}
-                              onChange={() => handleTemplateSelect(template.id)}
-                              className="template-radio"
-                            />
-                            <label htmlFor={`template-${template.id}`} className="template-radio-label">
-                              {selectedTemplate === template.id ? 'Selected' : 'Select this template'}
-                            </label>
+                          <div className="template-buttons-row">
+                            <div className="template-radio-container" onClick={() => handleTemplateSelect(template.id)}>
+                              <input
+                                type="radio"
+                                id={`template-${template.id}`}
+                                name="template-selection"
+                                value={template.id}
+                                checked={selectedTemplate === template.id}
+                                onChange={() => handleTemplateSelect(template.id)}
+                                className="template-radio"
+                              />
+                              <label htmlFor={`template-${template.id}`} className="template-radio-label">
+                                {selectedTemplate === template.id ? 'Selected' : 'Select'}
+                              </label>
+                            </div>
                           </div>
                         )}
                       </div>
@@ -233,18 +236,18 @@ function Template() {
                             />
                           ) : (
                             <div className="template-preview-placeholder">
-                              <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                              <svg width="60" height="60" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <defs>
-                                  <linearGradient id="templateGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                  <linearGradient id={`templateGradient-${template.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
                                     <stop offset="0%" stopColor="#ff00ff" />
                                     <stop offset="50%" stopColor="#b84dff" />
                                     <stop offset="100%" stopColor="#00bfff" />
                                   </linearGradient>
                                 </defs>
-                                <rect x="10" y="10" width="60" height="60" rx="8" stroke="url(#templateGradient)" strokeWidth="2" fill="none" opacity="0.3"/>
-                                <rect x="20" y="25" width="40" height="30" rx="4" fill="url(#templateGradient)" opacity="0.2"/>
-                                <circle cx="35" cy="40" r="3" fill="url(#templateGradient)" opacity="0.5"/>
-                                <circle cx="45" cy="40" r="3" fill="url(#templateGradient)" opacity="0.5"/>
+                                <rect x="10" y="10" width="60" height="60" rx="8" stroke={`url(#templateGradient-${template.id})`} strokeWidth="2" fill="none" opacity="0.3"/>
+                                <rect x="20" y="25" width="40" height="30" rx="4" fill={`url(#templateGradient-${template.id})`} opacity="0.2"/>
+                                <circle cx="35" cy="40" r="3" fill={`url(#templateGradient-${template.id})`} opacity="0.5"/>
+                                <circle cx="45" cy="40" r="3" fill={`url(#templateGradient-${template.id})`} opacity="0.5"/>
                               </svg>
                               <p>Preview</p>
                             </div>

@@ -4,17 +4,19 @@
   max-width: 100%;
   margin-left: auto;
   margin-right: auto;
-  height: calc(100vh - 280px);
-  min-height: 600px;
+  height: auto;
+  min-height: auto;
   flex: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  overflow: visible;
+  position: relative;
 }
 
 .location-card-item {
   background: linear-gradient(135deg, rgba(23, 13, 39, 0.8), rgba(39, 30, 55, 0.6));
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 0;
   cursor: pointer;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -25,10 +27,13 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  width: 100%;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  width: clamp(380px, 32vw, 480px);
+  min-width: 380px;
+  max-width: 480px;
+  height: auto;
+  max-height: 500px;
+  flex-shrink: 0;
+  margin-right: 0;
 }
 
 .location-card-item::before {
@@ -50,7 +55,7 @@
 .location-card-item:hover {
   background: linear-gradient(135deg, rgba(39, 30, 55, 0.9), rgba(57, 46, 78, 0.7));
   border-color: rgba(132, 0, 255, 0.4);
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
   box-shadow: 
     0 10px 40px rgba(0, 0, 0, 0.3),
     0 0 30px rgba(132, 0, 255, 0.2);
@@ -63,7 +68,7 @@
     0 15px 50px rgba(0, 0, 0, 0.4),
     0 0 40px rgba(132, 0, 255, 0.4),
     inset 0 0 30px rgba(132, 0, 255, 0.1);
-  transform: translateY(-6px);
+  transform: translateY(-6px) scale(1.03);
 }
 
 .location-card-item.selected::before {
@@ -84,11 +89,13 @@
 
 .location-card-content {
   display: flex;
-  gap: clamp(1rem, 3vw, 2rem);
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  min-height: clamp(300px, 40vh, 400px);
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
   box-sizing: border-box;
   width: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .location-left-section {
@@ -97,14 +104,11 @@
   flex-direction: column;
   min-width: 0;
   box-sizing: border-box;
+  overflow: hidden;
 }
 
 .location-right-section {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  box-sizing: border-box;
+  display: none;
 }
 
 .unavailable-badge {
@@ -124,7 +128,7 @@
 }
 
 .location-header {
-  margin-bottom: clamp(1rem, 3vh, 2rem);
+  margin-bottom: 0.75rem;
   position: relative;
   padding: 0;
   width: 100%;
@@ -134,20 +138,20 @@
 .location-name-wrapper {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.75rem;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .location-header h3 {
   color: #ffffff;
-  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
   margin: 0;
   font-weight: 700;
   background: linear-gradient(135deg, #ffffff, rgba(255, 255, 255, 0.8));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  line-height: 1.3;
+  line-height: 1.2;
   word-wrap: break-word;
   overflow-wrap: break-word;
   max-width: 100%;
@@ -183,28 +187,31 @@
 
 .location-city {
   color: rgba(255, 255, 255, 0.6);
-  font-size: clamp(0.85rem, 2vw, 1rem);
+  font-size: clamp(0.75rem, 1.6vw, 0.85rem);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
+  margin-top: 0.25rem;
 }
 
 .location-details {
-  margin-bottom: clamp(1rem, 3vh, 2rem);
+  margin-bottom: 0.75rem;
   display: flex;
   flex-direction: column;
-  gap: clamp(0.75rem, 2vh, 1rem);
+  gap: 0.5rem;
   padding: 0;
   flex: 1;
   width: 100%;
   box-sizing: border-box;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .detail-item {
   display: flex;
   align-items: flex-start;
   gap: 0;
-  padding: 0.75rem 0;
+  padding: 0.4rem 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   transition: all 0.3s ease;
 }
@@ -214,10 +221,10 @@
 }
 
 .location-details p {
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(255, 255, 255, 0.85);
   margin: 0;
-  font-size: clamp(0.85rem, 2vw, 1rem);
-  line-height: 1.6;
+  font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+  line-height: 1.4;
   word-wrap: break-word;
   box-sizing: border-box;
 }
@@ -227,28 +234,39 @@
 }
 
 .location-coordinates {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: clamp(0.7rem, 1.5vw, 0.8rem);
   font-family: 'Courier New', monospace;
+}
+
+.location-buttons-row {
+  display: flex;
+  flex-direction: row;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  flex-shrink: 0;
 }
 
 .location-radio-container {
   margin: 0;
-  margin-top: auto;
-  padding: clamp(0.75rem, 2vh, 1rem) clamp(1rem, 2.5vw, 1.5rem);
+  padding: 0.65rem 1rem;
   background: linear-gradient(135deg, rgba(132, 0, 255, 0.15), rgba(132, 0, 255, 0.05));
-  border-radius: 12px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(0.5rem, 1.5vw, 0.75rem);
+  gap: 0.5rem;
   border: 1px solid rgba(132, 0, 255, 0.3);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
-  width: 100%;
+  flex: 1;
+  min-width: 0;
   box-sizing: border-box;
-  flex-shrink: 0;
+  cursor: pointer;
 }
 
 .location-radio-container::before {
@@ -313,12 +331,14 @@
 
 .location-radio-label {
   color: rgba(132, 0, 255, 1);
-  font-size: clamp(0.85rem, 2vw, 0.95rem);
+  font-size: clamp(0.8rem, 1.8vw, 0.85rem);
   font-weight: 600;
   cursor: pointer;
   user-select: none;
   transition: color 0.3s ease;
   white-space: nowrap;
+  flex: 1;
+  text-align: center;
 }
 
 .location-card-item.selected .location-radio-label {
@@ -337,6 +357,8 @@
 
 .action-buttons {
   margin-top: clamp(2rem, 5vh, 4rem);
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -395,10 +417,11 @@
   min-height: 0;
   width: 100%;
   max-width: 100%;
-  align-items: center;
+  align-items: stretch;
   box-sizing: border-box;
   padding: clamp(1rem, 2vw, 2rem);
   padding-top: clamp(2rem, 4vh, 3rem);
+  overflow-x: hidden;
 }
 
 .locations-header {
@@ -406,6 +429,8 @@
   margin-bottom: clamp(0.75rem, 2vh, 1.5rem);
   padding-top: clamp(0.5rem, 1vh, 1rem);
   margin-top: 0;
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   max-width: 1000px;
   box-sizing: border-box;
@@ -450,13 +475,7 @@
 }
 
 .location-image-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  min-height: 350px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid rgba(132, 0, 255, 0.2);
+  display: none;
 }
 
 .location-image {
@@ -500,32 +519,32 @@
 }
 
 .view-map-button {
-  position: absolute;
-  bottom: clamp(1rem, 2vh, 1.5rem);
-  right: clamp(1rem, 2vw, 1.5rem);
-  padding: clamp(0.6rem, 1.5vh, 0.75rem) clamp(1rem, 2.5vw, 1.5rem);
+  padding: 0.65rem 1rem;
   background: linear-gradient(135deg, rgba(132, 0, 255, 0.95), rgba(0, 191, 255, 0.95));
   color: #ffffff;
   text-decoration: none;
-  border-radius: 8px;
-  font-size: clamp(0.8rem, 2vw, 0.9rem);
+  border-radius: 10px;
+  font-size: clamp(0.8rem, 1.8vw, 0.85rem);
   font-weight: 600;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(132, 0, 255, 0.5);
-  z-index: 10;
+  box-shadow: 0 2px 10px rgba(132, 0, 255, 0.4);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   backdrop-filter: blur(10px);
   white-space: nowrap;
   box-sizing: border-box;
-  min-height: clamp(36px, 4vh, 44px);
+  flex: 1;
+  min-width: 0;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
 }
 
 .view-map-button:hover {
   background: linear-gradient(135deg, rgba(132, 0, 255, 1), rgba(0, 191, 255, 1));
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(132, 0, 255, 0.6);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 15px rgba(132, 0, 255, 0.6);
 }
 
 @media (max-width: 968px) {
@@ -552,8 +571,15 @@
   .locations-animated-list {
     max-width: 100%;
     margin: 1.5rem 0;
-    height: calc(100vh - 200px);
-    min-height: 500px;
+    height: auto;
+    min-height: auto;
+  }
+
+  .location-card-item {
+    width: clamp(320px, 40vw, 400px);
+    min-width: 320px;
+    max-width: 400px;
+    max-height: 450px;
   }
 
   .location-card-content {
@@ -643,6 +669,32 @@
     padding-top: clamp(2rem, 4vh, 3rem);
   }
 
+  .location-card-item {
+    width: clamp(280px, 85vw, 350px);
+    min-width: 280px;
+    max-width: 350px;
+    max-height: 420px;
+  }
+
+  .location-card-content {
+    padding: 1rem;
+    gap: 0.75rem;
+  }
+
+  .location-header {
+    margin-bottom: 0.5rem;
+  }
+
+  .location-details {
+    margin-bottom: 0.5rem;
+    gap: 0.4rem;
+  }
+
+  .location-buttons-row {
+    gap: 0.5rem;
+    padding-top: 0.75rem;
+  }
+
   .locations-header {
     margin-bottom: 1rem;
     padding-top: clamp(1rem, 2vh, 1.5rem);
@@ -726,6 +778,28 @@
     padding-top: clamp(1.75rem, 3.5vh, 2.5rem);
   }
 
+  .location-card-item {
+    width: clamp(260px, 90vw, 320px);
+    min-width: 260px;
+    max-width: 320px;
+    max-height: 400px;
+  }
+
+  .location-card-content {
+    padding: 0.875rem;
+    gap: 0.5rem;
+  }
+
+  .location-buttons-row {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .location-radio-container,
+  .view-map-button {
+    width: 100%;
+  }
+
   .locations-header {
     padding-top: clamp(0.75rem, 1.5vh, 1.25rem);
     margin-top: 0;
@@ -771,6 +845,22 @@
 /* WhatsApp Help Section */
 .locations-page-content > div:last-child {
   margin-top: clamp(1.5rem, 4vh, 2rem);
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  width: 100%;
+  max-width: 1000px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 clamp(0.5rem, 2vw, 1rem);
+}
+
+.whatsapp-help-section {
+  margin-top: clamp(1.5rem, 4vh, 2rem);
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
   width: 100%;
   max-width: 1000px;

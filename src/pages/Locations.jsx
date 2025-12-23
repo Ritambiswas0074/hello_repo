@@ -103,12 +103,15 @@ function Locations() {
       // Ensure location is saved in localStorage
       localStorage.setItem('featureme_locationId', selectedLocation)
       
-      // Get location details to save full info
-      const locationDetails = await api.getLocationById(selectedLocation)
-      const locationData = locationDetails.location || locationDetails
-      
-      if (locationData) {
-        localStorage.setItem('featureme_locationData', JSON.stringify(locationData))
+      // Use cached location data if available (already stored in handleLocationSelect)
+      // Only fetch if not already cached
+      const cachedLocationData = localStorage.getItem('featureme_locationData')
+      if (!cachedLocationData) {
+        const locationDetails = await api.getLocationById(selectedLocation)
+        const locationData = locationDetails.location || locationDetails
+        if (locationData) {
+          localStorage.setItem('featureme_locationData', JSON.stringify(locationData))
+        }
       }
       
       console.log('Location saved for user:', user.id, 'Location:', selectedLocation)
@@ -170,6 +173,7 @@ function Locations() {
                 enableArrowNavigation={true}
                 displayScrollbar={true}
                 initialSelectedIndex={-1}
+                horizontal={true}
                 renderItem={(location, index, isSelected) => (
                   <div 
                     className={`location-card-item ${selectedLocation === location.id ? 'selected' : ''} ${isSelected ? 'selected' : ''} ${!location.isActive ? 'unavailable' : ''}`}
@@ -209,35 +213,33 @@ function Locations() {
                           )}
                         </div>
                         {location.isActive && (
-                          <div className="location-radio-container">
-                            <input
-                              type="radio"
-                              id={`location-${location.id}`}
-                              name="location-selection"
-                              value={location.id}
-                              checked={selectedLocation === location.id}
-                              onChange={() => handleLocationSelect(location.id)}
-                              className="location-radio"
-                            />
-                            <label htmlFor={`location-${location.id}`} className="location-radio-label">
-                              Select this location
-                            </label>
+                          <div className="location-buttons-row">
+                            <div className="location-radio-container" onClick={() => handleLocationSelect(location.id)}>
+                              <input
+                                type="radio"
+                                id={`location-${location.id}`}
+                                name="location-selection"
+                                value={location.id}
+                                checked={selectedLocation === location.id}
+                                onChange={() => handleLocationSelect(location.id)}
+                                className="location-radio"
+                              />
+                              <label htmlFor={`location-${location.id}`} className="location-radio-label">
+                                Select
+                              </label>
+                            </div>
+                            {location.latitude && location.longitude && (
+                              <a
+                                href={`https://www.google.com/maps?q=${location.latitude},${location.longitude}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="view-map-button"
+                              >
+                                Maps
+                              </a>
+                            )}
                           </div>
                         )}
-                      </div>
-                      <div className="location-right-section">
-                        <div className="location-image-container">
-                          {location.latitude && location.longitude && (
-                            <a
-                              href={`https://www.google.com/maps?q=${location.latitude},${location.longitude}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="view-map-button"
-                            >
-                              View in Google Maps
-                            </a>
-                          )}
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -261,7 +263,7 @@ function Locations() {
             </div>
           )}
 
-          <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <div className="whatsapp-help-section">
             <button 
               className="btn btn-secondary" 
               onClick={handleWhatsAppHelp}

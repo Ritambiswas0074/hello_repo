@@ -1,8 +1,12 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://featureme-backend.onrender.com/api';
+const REQUEST_TIMEOUT = 30000; // 30 seconds
+const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 class ApiService {
   constructor() {
     this.baseURL = API_BASE_URL;
+    this.cache = new Map();
+    this.abortControllers = new Map();
   }
 
   // Get auth token from localStorage
@@ -20,15 +24,69 @@ class ApiService {
     localStorage.removeItem('featureme_accessToken');
     localStorage.removeItem('featureme_refreshToken');
     localStorage.removeItem('featureme_user');
+    localStorage.removeItem('featureme_tokenTimestamp');
   }
 
-  // Generic request method
+  // Cancel previous request for same endpoint
+  cancelRequest(endpoint) {
+    if (this.abortControllers.has(endpoint)) {
+      this.abortControllers.get(endpoint).abort();
+      this.abortControllers.delete(endpoint);
+    }
+  }
+
+  // Check cache
+  getCached(endpoint) {
+    const cached = this.cache.get(endpoint);
+    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      return cached.data;
+    }
+    this.cache.delete(endpoint);
+    return null;
+  }
+
+  // Set cache
+  setCache(endpoint, data) {
+    this.cache.set(endpoint, {
+      data,
+      timestamp: Date.now()
+    });
+  }
+
+  // Clear cache for endpoint
+  clearCache(endpoint) {
+    if (endpoint) {
+      this.cache.delete(endpoint);
+    } else {
+      this.cache.clear();
+    }
+  }
+
+  // Generic request method with timeout and cancellation
   async request(endpoint, options = {}) {
     const url = `${this.baseURL}${endpoint}`;
     const token = this.getToken();
+    const isGetRequest = !options.method || options.method === 'GET';
+    const cacheKey = isGetRequest ? endpoint : null;
+
+    // Check cache for GET requests
+    if (cacheKey) {
+      const cached = this.getCached(cacheKey);
+      if (cached) {
+        return cached;
+      }
+    }
+
+    // Cancel previous request for same endpoint
+    this.cancelRequest(endpoint);
+
+    // Create abort controller for cancellation
+    const abortController = new AbortController();
+    this.abortControllers.set(endpoint, abortController);
 
     const config = {
       ...options,
+      signal: abortController.signal,
       headers: {
         'Content-Type': 'application/json',
         ...(token && { Authorization: `Bearer ${token}` }),
@@ -37,7 +95,27 @@ class ApiService {
     };
 
     try {
-      const response = await fetch(url, config);
+      // Create timeout promise
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => {
+          abortController.abort();
+          reject(new Error(`Request timeout after ${REQUEST_TIMEOUT}ms`));
+        }, REQUEST_TIMEOUT);
+      });
+
+      // Race between fetch and timeout
+      const response = await Promise.race([
+        fetch(url, config),
+        timeoutPromise
+      ]);
+
+      // Clean up abort controller
+      this.abortControllers.delete(endpoint);
+
+      if (response.aborted) {
+        throw new Error('Request was aborted');
+      }
+
       const data = await response.json();
 
       if (!response.ok) {
@@ -51,8 +129,21 @@ class ApiService {
         throw apiError;
       }
 
+      // Cache GET requests
+      if (cacheKey) {
+        this.setCache(cacheKey, data);
+      }
+
       return data;
     } catch (error) {
+      // Clean up abort controller on error
+      this.abortControllers.delete(endpoint);
+
+      if (error.name === 'AbortError' || error.message.includes('aborted')) {
+        console.warn('Request cancelled:', endpoint);
+        throw new Error('Request was cancelled');
+      }
+
       console.error('API Error:', error);
       throw error;
     }
@@ -147,21 +238,37 @@ class ApiService {
       formData.append('featureType', featureType);
     }
 
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        ...(token && { Authorization: `Bearer ${token}` }),
-      },
-      body: formData,
-    });
+    // Create abort controller for upload cancellation
+    const abortController = new AbortController();
+    const timeoutId = setTimeout(() => {
+      abortController.abort();
+    }, REQUEST_TIMEOUT);
 
-    const data = await response.json();
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        signal: abortController.signal,
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }),
+        },
+        body: formData,
+      });
 
-    if (!response.ok) {
-      throw new Error(data.error || 'Upload failed');
+      clearTimeout(timeoutId);
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      return data;
+    } catch (error) {
+      clearTimeout(timeoutId);
+      if (error.name === 'AbortError') {
+        throw new Error('Upload timeout');
+      }
+      throw error;
     }
-
-    return data;
   }
 
   async getUserMedia(type = null) {
@@ -229,4 +336,3 @@ class ApiService {
 }
 
 export default new ApiService();
-
