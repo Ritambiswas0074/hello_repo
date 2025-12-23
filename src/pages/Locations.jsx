@@ -80,10 +80,6 @@ function Locations() {
       console.log('Location stored in localStorage:', locationId)
     } catch (error) {
       console.error('Error fetching location details:', error)
-      // Don't show alert for cancelled requests
-      if (error.isCancelled || error.name === 'CancelledError') {
-        return
-      }
       // Clear selection on error
       setSelectedLocation(null)
       alert('Failed to load location details. Please try again.')

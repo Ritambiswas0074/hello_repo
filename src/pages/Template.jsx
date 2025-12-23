@@ -90,10 +90,6 @@ function Template() {
       console.log('Template stored in localStorage:', templateId)
     } catch (error) {
       console.error('Error fetching template details:', error)
-      // Don't show alert for cancelled requests
-      if (error.isCancelled || error.name === 'CancelledError') {
-        return
-      }
       // Clear selection on error
       setSelectedTemplate(null)
       alert('Failed to load template details. Please try again.')

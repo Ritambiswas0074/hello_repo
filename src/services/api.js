@@ -2,15 +2,6 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://featureme-backend.
 const REQUEST_TIMEOUT = 30000; // 30 seconds
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
-// Custom error class for cancelled requests
-class CancelledError extends Error {
-  constructor(message = 'Request was cancelled') {
-    super(message);
-    this.name = 'CancelledError';
-    this.isCancelled = true;
-  }
-}
-
 class ApiService {
   constructor() {
     this.baseURL = API_BASE_URL;
@@ -86,6 +77,9 @@ class ApiService {
       }
     }
 
+    // Cancel previous request for same endpoint
+    this.cancelRequest(endpoint);
+
     // Create abort controller for cancellation
     const abortController = new AbortController();
     this.abortControllers.set(endpoint, abortController);
@@ -118,14 +112,8 @@ class ApiService {
       // Clean up abort controller
       this.abortControllers.delete(endpoint);
 
-      // Check if response is an Error (from timeout) or a Response object
-      if (response instanceof Error) {
-        throw response;
-      }
-
-      // Check if request was aborted
-      if (abortController.signal.aborted) {
-        throw new CancelledError('Request was cancelled');
+      if (response.aborted) {
+        throw new Error('Request was aborted');
       }
 
       const data = await response.json();
@@ -151,15 +139,9 @@ class ApiService {
       // Clean up abort controller on error
       this.abortControllers.delete(endpoint);
 
-      // Handle cancellation gracefully
-      if (error.name === 'AbortError' || error instanceof CancelledError || error.isCancelled) {
+      if (error.name === 'AbortError' || error.message.includes('aborted')) {
         console.warn('Request cancelled:', endpoint);
-        throw new CancelledError('Request was cancelled');
-      }
-
-      // Re-throw timeout errors
-      if (error.message && error.message.includes('timeout')) {
-        throw error;
+        throw new Error('Request was cancelled');
       }
 
       console.error('API Error:', error);
