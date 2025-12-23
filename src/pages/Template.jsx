@@ -90,6 +90,10 @@ function Template() {
       console.log('Template stored in localStorage:', templateId)
     } catch (error) {
       console.error('Error fetching template details:', error)
+      // Don't show alert for cancelled requests
+      if (error.isCancelled || error.name === 'CancelledError') {
+        return
+      }
       // Clear selection on error
       setSelectedTemplate(null)
       alert('Failed to load template details. Please try again.')
@@ -210,18 +214,18 @@ function Template() {
                         {template.isActive && (
                           <div className="template-buttons-row">
                             <div className="template-radio-container" onClick={() => handleTemplateSelect(template.id)}>
-                              <input
-                                type="radio"
-                                id={`template-${template.id}`}
-                                name="template-selection"
-                                value={template.id}
-                                checked={selectedTemplate === template.id}
-                                onChange={() => handleTemplateSelect(template.id)}
-                                className="template-radio"
-                              />
-                              <label htmlFor={`template-${template.id}`} className="template-radio-label">
+                            <input
+                              type="radio"
+                              id={`template-${template.id}`}
+                              name="template-selection"
+                              value={template.id}
+                              checked={selectedTemplate === template.id}
+                              onChange={() => handleTemplateSelect(template.id)}
+                              className="template-radio"
+                            />
+                            <label htmlFor={`template-${template.id}`} className="template-radio-label">
                                 {selectedTemplate === template.id ? 'Selected' : 'Select'}
-                              </label>
+                            </label>
                             </div>
                           </div>
                         )}
