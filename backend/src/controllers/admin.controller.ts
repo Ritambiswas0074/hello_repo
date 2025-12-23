@@ -177,6 +177,13 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
   }
 };
 
+
+// export const sorttResponseByDate =(response:any) => {
+//   return response.sort((a:any, b:any) => {
+//     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+//   });
+// }
+
 // Get booking statistics for admin dashboard
 export const getBookingStats = async (req: AuthRequest, res: Response) => {
   try {

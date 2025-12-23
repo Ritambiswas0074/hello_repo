@@ -84,10 +84,10 @@ const AnimatedList = ({
       const rightDistance = scrollWidth - (scrollLeft + clientWidth);
       setBottomGradientOpacity(scrollWidth <= clientWidth ? 0 : Math.min(rightDistance / 50, 1));
     } else {
-      const { scrollTop, scrollHeight, clientHeight } = e.target;
-      setTopGradientOpacity(Math.min(scrollTop / 50, 1));
-      const bottomDistance = scrollHeight - (scrollTop + clientHeight);
-      setBottomGradientOpacity(scrollHeight <= clientHeight ? 0 : Math.min(bottomDistance / 50, 1));
+    const { scrollTop, scrollHeight, clientHeight } = e.target;
+    setTopGradientOpacity(Math.min(scrollTop / 50, 1));
+    const bottomDistance = scrollHeight - (scrollTop + clientHeight);
+    setBottomGradientOpacity(scrollHeight <= clientHeight ? 0 : Math.min(bottomDistance / 50, 1));
     }
   }, [horizontal]);
 
@@ -112,19 +112,19 @@ const AnimatedList = ({
           }
         }
       } else {
-        if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+      if (e.key === 'ArrowDown' || (e.key === 'Tab' && !e.shiftKey)) {
+        e.preventDefault();
+        setKeyboardNav(true);
+        setSelectedIndex(prev => Math.min(prev + 1, items.length - 1));
+      } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
+        e.preventDefault();
+        setKeyboardNav(true);
+        setSelectedIndex(prev => Math.max(prev - 1, 0));
+      } else if (e.key === 'Enter') {
+        if (selectedIndex >= 0 && selectedIndex < items.length) {
           e.preventDefault();
-          setKeyboardNav(true);
-          setSelectedIndex(prev => Math.min(prev + 1, items.length - 1));
-        } else if (e.key === 'ArrowUp' || (e.key === 'Tab' && e.shiftKey)) {
-          e.preventDefault();
-          setKeyboardNav(true);
-          setSelectedIndex(prev => Math.max(prev - 1, 0));
-        } else if (e.key === 'Enter') {
-          if (selectedIndex >= 0 && selectedIndex < items.length) {
-            e.preventDefault();
-            if (onItemSelect) {
-              onItemSelect(items[selectedIndex], selectedIndex);
+          if (onItemSelect) {
+            onItemSelect(items[selectedIndex], selectedIndex);
             }
           }
         }
@@ -154,17 +154,17 @@ const AnimatedList = ({
           });
         }
       } else {
-        const containerScrollTop = container.scrollTop;
-        const containerHeight = container.clientHeight;
-        const itemTop = selectedItem.offsetTop;
-        const itemBottom = itemTop + selectedItem.offsetHeight;
-        if (itemTop < containerScrollTop + extraMargin) {
-          container.scrollTo({ top: itemTop - extraMargin, behavior: 'smooth' });
-        } else if (itemBottom > containerScrollTop + containerHeight - extraMargin) {
-          container.scrollTo({
-            top: itemBottom - containerHeight + extraMargin,
-            behavior: 'smooth'
-          });
+      const containerScrollTop = container.scrollTop;
+      const containerHeight = container.clientHeight;
+      const itemTop = selectedItem.offsetTop;
+      const itemBottom = itemTop + selectedItem.offsetHeight;
+      if (itemTop < containerScrollTop + extraMargin) {
+        container.scrollTo({ top: itemTop - extraMargin, behavior: 'smooth' });
+      } else if (itemBottom > containerScrollTop + containerHeight - extraMargin) {
+        container.scrollTo({
+          top: itemBottom - containerHeight + extraMargin,
+          behavior: 'smooth'
+        });
         }
       }
     }

@@ -103,15 +103,12 @@ function Locations() {
       // Ensure location is saved in localStorage
       localStorage.setItem('featureme_locationId', selectedLocation)
       
-      // Use cached location data if available (already stored in handleLocationSelect)
-      const cachedLocationData = localStorage.getItem('featureme_locationData')
-      if (!cachedLocationData) {
-        // Only fetch if not already cached
-        const locationDetails = await api.getLocationById(selectedLocation)
-        const locationData = locationDetails.location || locationDetails
-        if (locationData) {
-          localStorage.setItem('featureme_locationData', JSON.stringify(locationData))
-        }
+      // Get location details to save full info
+      const locationDetails = await api.getLocationById(selectedLocation)
+      const locationData = locationDetails.location || locationDetails
+      
+      if (locationData) {
+        localStorage.setItem('featureme_locationData', JSON.stringify(locationData))
       }
       
       console.log('Location saved for user:', user.id, 'Location:', selectedLocation)
