@@ -13,28 +13,21 @@ export function AuthProvider({ children }) {
     const token = api.getToken()
     
     if (savedUser && token) {
-      const parsedUser = JSON.parse(savedUser)
-      setUser(parsedUser)
-      setLoading(false) // Set loading to false immediately for better UX
-      
-      // Only verify token if it's older than 5 minutes (reduce API calls)
-      const tokenAge = localStorage.getItem('featureme_tokenTimestamp')
-      const shouldVerify = !tokenAge || (Date.now() - parseInt(tokenAge)) > 5 * 60 * 1000
-      
-      if (shouldVerify) {
-        // Verify in background (non-blocking)
-        api.getCurrentUser()
-          .then((response) => {
-            setUser(response.user)
-            localStorage.setItem('featureme_user', JSON.stringify(response.user))
-            localStorage.setItem('featureme_tokenTimestamp', Date.now().toString())
-          })
-          .catch(() => {
-            // Token invalid, clear everything
-            api.removeToken()
-            setUser(null)
-          })
-      }
+      setUser(JSON.parse(savedUser))
+      // Verify token is still valid
+      api.getCurrentUser()
+        .then((response) => {
+          setUser(response.user)
+          localStorage.setItem('featureme_user', JSON.stringify(response.user))
+        })
+        .catch(() => {
+          // Token invalid, clear everything
+          api.removeToken()
+          setUser(null)
+        })
+        .finally(() => {
+          setLoading(false)
+        })
     } else {
       setLoading(false)
     }
@@ -47,7 +40,6 @@ export function AuthProvider({ children }) {
       // Store tokens
       api.setToken(response.accessToken)
       localStorage.setItem('featureme_refreshToken', response.refreshToken)
-      localStorage.setItem('featureme_tokenTimestamp', Date.now().toString())
       
       // Store user data
       setUser(response.user)
@@ -72,7 +64,6 @@ export function AuthProvider({ children }) {
       // Store tokens
       api.setToken(response.accessToken)
       localStorage.setItem('featureme_refreshToken', response.refreshToken)
-      localStorage.setItem('featureme_tokenTimestamp', Date.now().toString())
       
       // Store user data
       setUser(response.user)
