@@ -4,6 +4,7 @@ import { AuthRequest } from '../types';
 import { formatDate, formatTime, formatDateTime, formatDateIST, formatTimeIST, formatDateTimeIST, convertToISTISO } from '../utils/date.utils';
 // Removed calculateEndTime import - can't calculate without plan info
 
+
 // Get all bookings for admin view (master table)
 export const getAllBookings = async (req: AuthRequest, res: Response) => {
   try {
@@ -111,8 +112,8 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
       // Calculate end time if not stored (for backward compatibility)
       // For admin view, if endTime is missing, we can't calculate it without plan info
       // So we'll just use the stored endTime or null
-      const endTime = booking.schedule.endTime 
-        ? new Date(booking.schedule.endTime) 
+      const endTime = booking.schedule.endTime
+        ? new Date(booking.schedule.endTime)
         : null;
 
       // Format date and time for display using local timezone to preserve user's selection
@@ -178,11 +179,13 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
 };
 
 
+
 // export const sorttResponseByDate =(response:any) => {
 //   return response.sort((a:any, b:any) => {
 //     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 //   });
 // }
+
 
 // Get booking statistics for admin dashboard
 export const getBookingStats = async (req: AuthRequest, res: Response) => {
@@ -248,6 +251,7 @@ export const getBookingStats = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Get all user activity with comprehensive information
 // No authentication required - public endpoint
@@ -378,13 +382,13 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         // This ensures the displayed date matches what the user selected
         const startTime = booking.schedule.startTime ? new Date(booking.schedule.startTime) : null;
         // Use stored endTime or null (can't calculate without plan info)
-        const endTime = booking.schedule.endTime 
-          ? new Date(booking.schedule.endTime) 
+        const endTime = booking.schedule.endTime
+          ? new Date(booking.schedule.endTime)
           : null;
 
         // If we have startTime, use its date portion; otherwise use the date field
         const eventDate = startTime || new Date(booking.schedule.date);
-        
+
         // Format date and time for display using IST timezone
         const formattedDate = formatDateIST(booking.schedule.date, startTime);
         const formattedStartTime = formatTimeIST(startTime);
@@ -394,47 +398,41 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         const timeSlot = formattedStartTime || 'Time not specified';
 
         // Find media items uploaded specifically for THIS booking/schedule
-        // Use schedule creation time and booking creation time to identify the session
+        // Use event date and booking media featureType instead of time window
         const bookingCreatedAt = new Date(booking.createdAt);
-        
+
         // Use schedule createdAt if available, otherwise use schedule date as fallback
-        const scheduleCreatedAt = booking.schedule.createdAt 
+        const scheduleCreatedAt = booking.schedule.createdAt
           ? new Date(booking.schedule.createdAt)
           : new Date(booking.schedule.date);
-        
-        // Media should be uploaded:
-        // 1. After or around the time the schedule was created (user uploads media after selecting schedule)
-        // 2. Before or just after the booking was created (within 15 minutes)
-        // 3. Only media with the same featureType as the booking's media (same purpose)
-        
-        // Start from 30 minutes before schedule creation (in case user uploaded media first)
-        const timeWindowStart = new Date(scheduleCreatedAt);
-        timeWindowStart.setMinutes(timeWindowStart.getMinutes() - 30);
-        
-        // End 15 minutes after booking creation (buffer for timing)
-        const timeWindowEnd = new Date(bookingCreatedAt);
-        timeWindowEnd.setMinutes(timeWindowEnd.getMinutes() + 15);
 
-        // Get media uploaded in this specific booking session window
+        // Helper to check if two dates are on the same calendar day
+        const isSameDay = (d1: Date, d2: Date) => (
+          d1.getFullYear() === d2.getFullYear() &&
+          d1.getMonth() === d2.getMonth() &&
+          d1.getDate() === d2.getDate()
+        );
+
+        // Get media uploaded on the same day as the event
         // AND with the same featureType (to ensure it's for the same booking purpose)
         let relatedMedia = user.mediaGallery.filter((media) => {
           const mediaCreatedAt = new Date(media.createdAt);
-          const isInTimeWindow = mediaCreatedAt >= timeWindowStart && mediaCreatedAt <= timeWindowEnd;
-          
+          const sameDayAsEvent = isSameDay(mediaCreatedAt, eventDate);
+
           // Only include media with the same featureType as the booking's primary media
           // This ensures we only get media uploaded for THIS specific booking
-          const hasSameFeatureType = booking.media.featureType 
+          const hasSameFeatureType = booking.media.featureType
             ? (media.featureType === booking.media.featureType)
             : true; // If booking media has no featureType, include all (for backward compatibility)
-          
-          return isInTimeWindow && hasSameFeatureType;
+
+          return sameDayAsEvent && hasSameFeatureType;
         });
 
         // If we have the booking's media featureType, prioritize media with the same featureType
         if (booking.media.featureType && relatedMedia.length > 0) {
           const sameFeatureTypeMedia = relatedMedia.filter(m => m.featureType === booking.media.featureType);
           if (sameFeatureTypeMedia.length > 0) {
-            // Use media with same featureType, but also include others from the time window
+            // Use media with same featureType, but also include others
             // Sort: same featureType first, then others
             relatedMedia.sort((a, b) => {
               const aHasSameType = a.featureType === booking.media.featureType;
@@ -468,7 +466,7 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         // Ensure the primary booking media is included
         const primaryMediaId = booking.media.id;
         const hasPrimaryMedia = relatedMedia.some(m => m.id === primaryMediaId);
-        
+
         // Format all related media items
         let formattedMedia = relatedMedia.map((media) => ({
           id: media.id,
@@ -721,4 +719,3 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 };
-
