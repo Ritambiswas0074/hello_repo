@@ -4,7 +4,6 @@ import { AuthRequest } from '../types';
 import { formatDate, formatTime, formatDateTime, formatDateIST, formatTimeIST, formatDateTimeIST, convertToISTISO } from '../utils/date.utils';
 // Removed calculateEndTime import - can't calculate without plan info
 
-
 // Get all bookings for admin view (master table)
 export const getAllBookings = async (req: AuthRequest, res: Response) => {
   try {
@@ -12,34 +11,27 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-
     // Check if user is admin
     const user = await prisma.user.findUnique({
       where: { id: req.user.userId },
       select: { role: true },
     });
 
-
     if (!user || user.role !== 'ADMIN') {
       return res.status(403).json({ error: 'Admin access required' });
     }
 
-
     const { status, locationId, startDate, endDate } = req.query;
 
-
     const where: any = {};
-
 
     if (status) {
       where.status = status;
     }
 
-
     if (locationId) {
       where.locationId = locationId;
     }
-
 
     if (startDate || endDate) {
       where.schedule = {
@@ -52,7 +44,6 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
         where.schedule.date.lte = new Date(endDate as string);
       }
     }
-
 
     const bookings = await prisma.booking.findMany({
       where,
@@ -113,7 +104,6 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
       orderBy: { createdAt: 'desc' },
     });
 
-
     // Format response for admin view
     const formattedBookings = bookings.map((booking) => {
       const eventDate = new Date(booking.schedule.date);
@@ -125,16 +115,13 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
         ? new Date(booking.schedule.endTime) 
         : null;
 
-
       // Format date and time for display using local timezone to preserve user's selection
       const formattedDate = formatDate(eventDate, startTime);
       const formattedStartTime = formatTime(startTime);
       const formattedEndTime = formatTime(endTime);
 
-
       // Only show start time (no end time range)
       const timeSlot = formattedStartTime || 'Time not specified';
-
 
       return {
         id: booking.id,
@@ -173,7 +160,6 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
       };
     });
 
-
     res.json({
       bookings: formattedBookings,
       total: formattedBookings.length,
@@ -192,13 +178,11 @@ export const getAllBookings = async (req: AuthRequest, res: Response) => {
 };
 
 
-
 // export const sorttResponseByDate =(response:any) => {
 //   return response.sort((a:any, b:any) => {
 //     return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
 //   });
 // }
-
 
 // Get booking statistics for admin dashboard
 export const getBookingStats = async (req: AuthRequest, res: Response) => {
@@ -207,17 +191,14 @@ export const getBookingStats = async (req: AuthRequest, res: Response) => {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
-
     const user = await prisma.user.findUnique({
       where: { id: req.user.userId },
       select: { role: true },
     });
 
-
     if (!user || user.role !== 'ADMIN') {
       return res.status(403).json({ error: 'Admin access required' });
     }
-
 
     const [
       totalBookings,
@@ -256,7 +237,6 @@ export const getBookingStats = async (req: AuthRequest, res: Response) => {
       }),
     ]);
 
-
     res.json({
       totalBookings,
       pendingPayments,
@@ -268,7 +248,6 @@ export const getBookingStats = async (req: AuthRequest, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 };
-
 
 // Get all user activity with comprehensive information
 // No authentication required - public endpoint
@@ -391,7 +370,6 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
       orderBy: { createdAt: 'desc' },
     });
 
-
     // Format response with comprehensive user activity
     const formattedUsers = users.map((user) => {
       // Format bookings
@@ -404,7 +382,6 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
           ? new Date(booking.schedule.endTime) 
           : null;
 
-
         // If we have startTime, use its date portion; otherwise use the date field
         const eventDate = startTime || new Date(booking.schedule.date);
         
@@ -413,26 +390,87 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         const formattedStartTime = formatTimeIST(startTime);
         const formattedEndTime = formatTimeIST(endTime);
 
-
         // Only show start time (no end time range)
         const timeSlot = formattedStartTime || 'Time not specified';
 
-        // **YOUR UPLOADED MEDIA ONLY - EXACT COUNT MATCH**
-        const uploadedMedia = user.mediaGallery.filter((media) => {
-          return booking.media.featureType 
+        // Find media items uploaded specifically for THIS booking/schedule
+        // Use schedule creation time and booking creation time to identify the session
+        const bookingCreatedAt = new Date(booking.createdAt);
+        
+        // Use schedule createdAt if available, otherwise use schedule date as fallback
+        const scheduleCreatedAt = booking.schedule.createdAt 
+          ? new Date(booking.schedule.createdAt)
+          : new Date(booking.schedule.date);
+        
+        // Media should be uploaded:
+        // 1. After or around the time the schedule was created (user uploads media after selecting schedule)
+        // 2. Before or just after the booking was created (within 15 minutes)
+        // 3. Only media with the same featureType as the booking's media (same purpose)
+        
+        // Start from 30 minutes before schedule creation (in case user uploaded media first)
+        const timeWindowStart = new Date(scheduleCreatedAt);
+        timeWindowStart.setMinutes(timeWindowStart.getMinutes() - 30);
+        
+        // End 15 minutes after booking creation (buffer for timing)
+        const timeWindowEnd = new Date(bookingCreatedAt);
+        timeWindowEnd.setMinutes(timeWindowEnd.getMinutes() + 15);
+
+        // Get media uploaded in this specific booking session window
+        // AND with the same featureType (to ensure it's for the same booking purpose)
+        let relatedMedia = user.mediaGallery.filter((media) => {
+          const mediaCreatedAt = new Date(media.createdAt);
+          const isInTimeWindow = mediaCreatedAt >= timeWindowStart && mediaCreatedAt <= timeWindowEnd;
+          
+          // Only include media with the same featureType as the booking's primary media
+          // This ensures we only get media uploaded for THIS specific booking
+          const hasSameFeatureType = booking.media.featureType 
             ? (media.featureType === booking.media.featureType)
-            : true;
+            : true; // If booking media has no featureType, include all (for backward compatibility)
+          
+          return isInTimeWindow && hasSameFeatureType;
         });
 
-        // Sort newest first
-        uploadedMedia.sort((a, b) => {
-          const dateA = new Date(a.createdAt);
-          const dateB = new Date(b.createdAt);
-          return dateB.getTime() - dateA.getTime();
+        // If we have the booking's media featureType, prioritize media with the same featureType
+        if (booking.media.featureType && relatedMedia.length > 0) {
+          const sameFeatureTypeMedia = relatedMedia.filter(m => m.featureType === booking.media.featureType);
+          if (sameFeatureTypeMedia.length > 0) {
+            // Use media with same featureType, but also include others from the time window
+            // Sort: same featureType first, then others
+            relatedMedia.sort((a, b) => {
+              const aHasSameType = a.featureType === booking.media.featureType;
+              const bHasSameType = b.featureType === booking.media.featureType;
+              if (aHasSameType && !bHasSameType) return -1;
+              if (!aHasSameType && bHasSameType) return 1;
+              // Both have same or different type, sort by date
+              return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+            });
+          }
+        } else {
+          // Sort by creation date (newest first)
+          relatedMedia.sort((a, b) => {
+            const dateA = new Date(a.createdAt);
+            const dateB = new Date(b.createdAt);
+            return dateB.getTime() - dateA.getTime();
+          });
+        }
+
+        // Remove duplicate media based on URL (keep only the first occurrence)
+        const seenUrls = new Set<string>();
+        relatedMedia = relatedMedia.filter((media) => {
+          if (!media.url) return true; // Keep items without URLs
+          if (seenUrls.has(media.url)) {
+            return false; // Skip duplicates
+          }
+          seenUrls.add(media.url);
+          return true;
         });
 
-        // Format EXACTLY what you uploaded - NO PRIMARY, NO FILTERS, NO DEDUPE
-        const formattedMedia = uploadedMedia.map((media) => ({
+        // Ensure the primary booking media is included
+        const primaryMediaId = booking.media.id;
+        const hasPrimaryMedia = relatedMedia.some(m => m.id === primaryMediaId);
+        
+        // Format all related media items
+        let formattedMedia = relatedMedia.map((media) => ({
           id: media.id,
           filename: media.filename,
           type: media.type,
@@ -447,6 +485,52 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
           uploadedAt: media.createdAt,
         }));
 
+        // If primary media is not in the list, add it at the beginning
+        if (!hasPrimaryMedia) {
+          formattedMedia.unshift({
+            id: booking.media.id,
+            filename: booking.media.filename,
+            type: booking.media.type,
+            featureType: booking.media.featureType,
+            url: booking.media.url,
+            thumbnailUrl: booking.media.thumbnailUrl,
+            size: booking.media.size,
+            width: booking.media.width,
+            height: booking.media.height,
+            duration: booking.media.duration,
+            description: booking.media.description,
+            uploadedAt: booking.media.createdAt,
+          });
+        }
+
+        // If no related media found, use the primary media
+        if (formattedMedia.length === 0) {
+          formattedMedia = [{
+            id: booking.media.id,
+            filename: booking.media.filename,
+            type: booking.media.type,
+            featureType: booking.media.featureType,
+            url: booking.media.url,
+            thumbnailUrl: booking.media.thumbnailUrl,
+            size: booking.media.size,
+            width: booking.media.width,
+            height: booking.media.height,
+            duration: booking.media.duration,
+            description: booking.media.description,
+            uploadedAt: booking.media.createdAt,
+          }];
+        }
+
+        // Remove duplicate formatted media based on URL (in case duplicates were added)
+        const seenFormattedUrls = new Set<string>();
+        formattedMedia = formattedMedia.filter((media) => {
+          if (!media.url) return true;
+          if (seenFormattedUrls.has(media.url)) {
+            return false;
+          }
+          seenFormattedUrls.add(media.url);
+          return true;
+        });
 
         return {
           bookingId: booking.id,
@@ -475,9 +559,11 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
             timeSlot: timeSlot,
             eventDateTime: formatDateTimeIST(booking.schedule.date, startTime),
           },
-          // **YOUR UPLOADED MEDIA ONLY - EXACT COUNT**
-          media: formattedMedia,
-          mediaCount: formattedMedia.length,
+          // Media information - ALWAYS an array of all related media
+          // Ensure it's always an array, never a single object
+          media: Array.isArray(formattedMedia) ? formattedMedia : [formattedMedia].filter(Boolean),
+          // Also include a count for convenience
+          mediaCount: Array.isArray(formattedMedia) ? formattedMedia.length : (formattedMedia ? 1 : 0),
           // Template information
           template: {
             id: booking.template.id,
@@ -510,7 +596,6 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         };
       });
 
-
       // Separate images and videos from all media
       const allImages = user.mediaGallery.filter(m => {
         const mediaType = m.type?.toUpperCase();
@@ -520,7 +605,6 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
         const mediaType = m.type?.toUpperCase();
         return mediaType === 'VIDEO';
       });
-
 
       return {
         // User information
@@ -607,7 +691,6 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
       };
     });
 
-
     // Calculate overall statistics
     const totalUsers = formattedUsers.length;
     const totalBookings = formattedUsers.reduce((sum, u) => sum + u.totalBookings, 0);
@@ -617,7 +700,6 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
     const totalSuccessfulPayments = formattedUsers.reduce((sum, u) => sum + u.paymentSummary.successfulPayments, 0);
     const totalRejectedPayments = formattedUsers.reduce((sum, u) => sum + u.paymentSummary.rejectedPayments, 0);
     const totalAmountPaid = formattedUsers.reduce((sum, u) => sum + u.paymentSummary.totalAmountPaid, 0);
-
 
     res.json({
       success: true,
@@ -639,3 +721,4 @@ export const getAllUserActivity = async (req: Request, res: Response) => {
     res.status(500).json({ error: error.message });
   }
 };
+
